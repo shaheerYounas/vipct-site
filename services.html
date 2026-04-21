@@ -1,580 +1,86 @@
 <!doctype html>
-<html>
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Services | VIP Coach Transfers</title>
+  
+  <title>VIP transfer services | VIP Coach Transfers s.r.o.</title>
+  <meta name="description" content="Airport transfers, chauffeur service, Europe routes and private programs from Prague.">
+  <link rel="canonical" href="https://vipct.org/en/services.html">
+  <link rel="alternate" hreflang="en" href="https://vipct.org/en/services.html">
+  <link rel="alternate" hreflang="cs" href="https://vipct.org/cs/services.html">
+  <link rel="alternate" hreflang="ar" href="https://vipct.org/ar/services.html">
+  <link rel="alternate" hreflang="x-default" href="https://vipct.org/en/services.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="VIP transfer services | VIP Coach Transfers s.r.o.">
+  <meta property="og:description" content="Airport transfers, chauffeur service, Europe routes and private programs from Prague.">
+  <meta property="og:url" content="https://vipct.org/en/services.html">
+  <meta property="og:image" content="https://vipct.org/assets/optimized/hero.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VIP transfer services | VIP Coach Transfers s.r.o.">
+  <meta name="twitter:description" content="Airport transfers, chauffeur service, Europe routes and private programs from Prague.">
+  <meta name="twitter:image" content="https://vipct.org/assets/optimized/hero.webp">
   <link rel="stylesheet" href="assets/style.css">
-  <style>
-    /* Services page enhancements */
-    .heroBox{
-      border-radius:22px;
-      border:1px solid rgba(255,255,255,.10);
-      background: linear-gradient(135deg, rgba(202,165,76,.12), rgba(255,255,255,.03));
-      padding:22px;
-      margin:10px 0 18px;
-      box-shadow: 0 18px 50px rgba(0,0,0,.35);
-    }
-    .heroBox h1{ margin:0 0 8px; font-size:34px; line-height:1.12; }
-    .heroBox p{ margin:0; color:rgba(255,255,255,.82); line-height:1.6; max-width:900px; }
-
-    .svcGrid{ display:grid; grid-template-columns:repeat(12, 1fr); gap:14px; margin-top:14px; }
-    .svcCard{
-      grid-column: span 12;
-      border-radius:20px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      overflow:hidden;
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      min-height:220px;
-      box-shadow: 0 12px 30px rgba(0,0,0,.3);
-    }
-    .svcMedia{ position:relative; background:#0c0c0c; min-height:220px; }
-    .svcMedia img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .svcMedia:after{
-      content:"";
-      position:absolute; inset:0;
-      background: linear-gradient(90deg, rgba(0,0,0,.10), rgba(0,0,0,.70));
-      pointer-events:none;
-    }
-    .svcBody{ padding:18px 18px 16px; display:flex; flex-direction:column; gap:10px; justify-content:center; }
-    .svcTitle{ margin:0; font-size:20px; line-height:1.2; }
-    .svcDesc{ margin:0; color:rgba(255,255,255,.82); line-height:1.55; }
-    .svcActions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:6px; }
-
-    .sectionBox{
-      margin-top:18px;
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:20px;
-      padding:18px;
-      background: rgba(255,255,255,.03);
-    }
-    .sectionBox h2{ margin:0 0 12px; font-size:22px; }
-    .sectionBox h3{ margin:16px 0 8px; font-size:18px; }
-    .muted{ color: rgba(255,255,255,.78); line-height:1.65; }
-    .noteLine{ color: rgba(255,255,255,.78); font-size:14px; line-height:1.6; }
-
-    .cityGrid{ display:grid; grid-template-columns:repeat(12,1fr); gap:12px; margin-top:10px; }
-    .cityCard{ grid-column: span 12; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.03); border-radius:18px; overflow:hidden; display:grid; grid-template-columns: .9fr 1.1fr; }
-    .cityCard img{ width:100%; height:100%; object-fit:cover; display:block; min-height:180px; background:#0c0c0c; }
-    .cityBody{ padding:14px; }
-    .cityBody h4{ margin:0 0 6px; font-size:16px; }
-    .cityBody p{ margin:0; color:rgba(255,255,255,.82); line-height:1.6; }
-    .priceBox{
-      margin-top:12px;
-      border:1px solid rgba(202,165,76,.25);
-      background: rgba(202,165,76,.08);
-      border-radius:18px;
-      padding:14px;
-    }
-
-    details{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      border-radius:16px;
-      padding:12px 14px;
-      margin-top:10px;
-    }
-    summary{
-      cursor:pointer;
-      font-weight:800;
-      list-style:none;
-    }
-    summary::-webkit-details-marker { display:none; }
-
-    /* Responsive */
-    @media (max-width: 920px){
-      .svcCard{ grid-template-columns: 1fr; }
-      .svcMedia:after{ background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.70)); }
-      .cityCard{ grid-template-columns:1fr; }
-    }
-
-    /* Language blocks */
-    [data-lang-block]{ display:none; }
-    html[lang="cs"] [data-lang-block="cz"]{ display:block; }
-    html[lang="en"] [data-lang-block="en"]{ display:block; }
-    html[lang="ar"] [data-lang-block="ar"]{ display:block; }
-
-    /* RTL */
-    body.rtl .cityBody, body.rtl .svcBody, body.rtl .sectionBox { text-align:right; }
-  </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"VIP transfer services | VIP Coach Transfers s.r.o.","description":"Airport transfers, chauffeur service, Europe routes and private programs from Prague.","provider":{"@type":"LocalBusiness","name":"VIP Coach Transfers s.r.o.","telephone":"+420 775 091 730","url":"https://vipct.org"},"areaServed":["Prague","Czechia","Central Europe"],"url":"https://vipct.org/en/services.html"}</script>
 </head>
-
-<body>
-<header>
+<body class="" data-page="services">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
   <div class="container nav">
-    <div class="brand">
-      <div class="logo">VIP</div>
-      <div>
-        <strong data-i18n="brand">VIP Coach Transfers</strong><br>
-        <span class="small">Prague • 24/7</span>
-      </div>
-    </div>
-
-    <nav class="links">
-      <a data-page="home" href="index.html" data-nav="home">Home</a>
-      <a data-page="services" href="services.html" data-nav="services">Services</a>
-      <a data-page="fleet" href="fleet.html" data-nav="fleet">Fleet</a>
-      <a data-page="programs" href="programs.html" data-nav="programs">Programs</a>
-      <a data-page="quote" href="quote.html" data-nav="quote">Get a Quote</a>
-      <a data-page="contact" href="contact.html" data-nav="contact">Contact</a>
-    </nav>
-
-    <div class="lang">
-      <button type="button" data-lang="en">EN</button>
-      <button type="button" data-lang="cz">CZ</button>
-      <button type="button" data-lang="ar">AR</button>
-    </div>
+    <a class="brand" href="index.html" aria-label="VIP Coach Transfers s.r.o.">
+      <span class="brand-mark"><img src="assets/optimized/logo-gold.webp" width="46" height="46" alt=""></span>
+      <span><span class="brand-name">VIP Coach Transfers s.r.o.</span><span class="brand-meta">Prague - 24/7</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary"><a href="index.html" data-nav="home">Home</a><a href="services.html" data-nav="services">Services</a><a href="fleet.html" data-nav="fleet">Fleet</a><a href="programs.html" data-nav="programs">Programs</a><a href="quote.html" data-nav="quote">Quote</a><a href="contact.html" data-nav="contact">Contact</a></nav>
+    <nav class="language-links" aria-label="Language"><a class="active" href="en/services.html" hreflang="en">EN</a><a href="cs/services.html" hreflang="cs">CS</a><a href="ar/services.html" hreflang="ar">AR</a></nav>
   </div>
 </header>
-
-<main class="container" style="padding:26px 0 44px">
-
-  <div class="heroBox">
-    <h1 data-i18n="servicesTitle">Services</h1>
-
-    <p class="muted" data-lang-block="en">
-      Choose from airport transfers, private driver, tours, programs, Europe transfers, and car rental.
-      Professional drivers, clean vehicles, and flexible schedules.
-    </p>
-
-    <p class="muted" data-lang-block="cz">
-      Nabízíme transfery na letiště, soukromého řidiče, výlety, programy, přepravu po Evropě a pronájem aut.
-      Profesionální řidiči, čistá vozidla a flexibilní služby.
-    </p>
-
-    <p class="muted" data-lang-block="ar">
-      نقدم لك مجموعة خدمات متكاملة داخل التشيك وخارجها: جولات يومية، توصيل داخل أوروبا، برامج وفعاليات،
-      سائق خاص مرافق، استقبال وتوديع المطار، وخدمات تأجير السيارات.
-    </p>
-
-    <div class="heroActions" style="margin-top:14px;">
-      <a class="btn primary" href="quote.html" data-i18n="ctaQuote">Get a Quote</a>
-      <a class="btn" data-wa href="#" data-i18n="ctaWa">Book on WhatsApp</a>
-    </div>
-  </div>
-
-  <!-- 7 SERVICES CARDS -->
-  <section class="svcGrid">
-
-    <article class="svcCard">
-      <div class="svcMedia">
-        <img src="assets/services/daily-tours.jpg" alt="Daily tours" onerror="this.src='assets/Prague.jpg'">
-      </div>
-      <div class="svcBody">
-        <h3 class="svcTitle">1. خدمة الرحلات والجولات اليومية</h3>
-        <p class="svcDesc muted" data-lang-block="en">9–10 hour day trips with professional driver from Prague.</p>
-        <p class="svcDesc muted" data-lang-block="cz">Celodenní výlety 9–10 hodin s profesionálním řidičem z Prahy.</p>
-        <p class="svcDesc muted" data-lang-block="ar">رحلات يومية 9–10 ساعات بسيارة مع سائق مرافق من براغ.</p>
-        <div class="svcActions">
-          <a class="btn primary" href="#daily-tours">Details</a>
-          <a class="btn" data-wa href="#">WhatsApp</a>
-        </div>
-      </div>
+<main id="main">
+  <section class="hero" style="--hero-image:url('/assets/optimized/Services/airport-pickup.webp'); min-height:520px"><div class="container hero-content"><span class="eyebrow">VIP transfers in Prague and Europe</span><h1>VIP transfer services</h1><p class="lead">Airport transfers, chauffeur service, Europe routes and private programs from Prague.</p><div class="actions"><a class="btn primary" href="quote.html">Get fixed price</a><a class="btn whatsapp" data-wa href="#">Book on WhatsApp</a></div></div></section>
+  <section class="container trust-strip" aria-label="Trust signals">
+    <div class="trust-item"><strong>Licensed company</strong><span>IČO 23693592, DIČ CZ23693592</span></div><div class="trust-item"><strong>24/7 support</strong><span>WhatsApp, phone and email</span></div><div class="trust-item"><strong>Flight tracking</strong><span>Arrival pickup timing</span></div><div class="trust-item"><strong>Professional drivers</strong><span>Discreet, punctual service</span></div><div class="trust-item"><strong>Fixed price quote</strong><span>Confirm price before booking</span></div><div class="trust-item"><strong>Multilingual service</strong><span>English, Czech and Arabic</span></div>
+  </section>
+  <section class="section"><div class="container"><div class="grid">
+    <article class="card span-4">
+      <div class="media"><img src="assets/optimized/Services/airport-pickup.webp" width="800" height="500" loading="lazy" decoding="async" alt="Airport pickup"></div>
+      <div class="card-body"><h3>Airport pickup</h3><p>Meet and greet, flight tracking, luggage help and direct transfer to your hotel.</p><div class="actions"><a class="btn" href="services.html">Learn more</a></div></div>
     </article>
-
-    <article class="svcCard">
-      <div class="svcMedia">
-        <img src="assets/services/europe.jpg" alt="Europe transfers" onerror="this.src='assets/PRG VIE.png'">
-      </div>
-      <div class="svcBody">
-        <h3 class="svcTitle">2. خدمات التوصيل لجميع أنحاء أوروبا</h3>
-        <p class="svcDesc muted" data-lang-block="en">Comfort, safety, and on-time service to any European destination.</p>
-        <p class="svcDesc muted" data-lang-block="cz">Pohodlná a bezpečná přeprava po celé Evropě s dochvilností.</p>
-        <p class="svcDesc muted" data-lang-block="ar">راحة، أمان، والتزام بالمواعيد أينما كانت وجهتك.</p>
-        <div class="svcActions">
-          <a class="btn primary" href="#europe">Details</a>
-          <a class="btn" data-wa href="#">WhatsApp</a>
-        </div>
-      </div>
+    <article class="card span-4">
+      <div class="media"><img src="assets/optimized/Services/airport-dropoff.webp" width="800" height="500" loading="lazy" decoding="async" alt="Airport drop-off"></div>
+      <div class="card-body"><h3>Airport drop-off</h3><p>Door-to-door pickup with timing planned around your departure.</p><div class="actions"><a class="btn" href="services.html">Learn more</a></div></div>
     </article>
-
-    <article class="svcCard">
-      <div class="svcMedia">
-        <img src="assets/services/events-programs.jpg" alt="Programs" onerror="this.src='assets/Summer.png'">
-      </div>
-      <div class="svcBody">
-        <h3 class="svcTitle">3. خدمة الفعاليات والبرامج</h3>
-        <p class="svcDesc muted" data-lang-block="en">Summer & winter programs: nature, adventure, shopping, and more.</p>
-        <p class="svcDesc muted" data-lang-block="cz">Letní a zimní programy: příroda, adrenalin, nákupy a další.</p>
-        <p class="svcDesc muted" data-lang-block="ar">برامج صيفية وشتوية: طبيعة، مغامرات، تسوق، وفعاليات.</p>
-        <div class="svcActions">
-          <a class="btn primary" href="#programs">Details</a>
-          <a class="btn" data-wa href="#">WhatsApp</a>
-        </div>
-      </div>
+    <article class="card span-4">
+      <div class="media"><img src="assets/optimized/Services/private-driver.webp" width="800" height="500" loading="lazy" decoding="async" alt="Private chauffeur"></div>
+      <div class="card-body"><h3>Private chauffeur</h3><p>Driver on disposal for business, shopping, events or full-stay support.</p><div class="actions"><a class="btn" href="services.html">Learn more</a></div></div>
     </article>
-
-    <article class="svcCard">
-      <div class="svcMedia">
-        <img src="assets/services/private-driver.jpg" alt="Private driver" onerror="this.src='assets/Pronajem.jpg'">
-      </div>
-      <div class="svcBody">
-        <h3 class="svcTitle">4. خدمة سائق خاص مرافق</h3>
-        <p class="svcDesc muted" data-lang-block="en">Private driver for your full stay — flexible, safe and discreet.</p>
-        <p class="svcDesc muted" data-lang-block="cz">Soukromý řidič po dobu pobytu — flexibilní, bezpečné a diskrétní.</p>
-        <p class="svcDesc muted" data-lang-block="ar">سائق خاص يرافقك طوال مدة الإقامة بكل خصوصية ومرونة.</p>
-        <div class="svcActions">
-          <a class="btn primary" href="#driver">Details</a>
-          <a class="btn" data-wa href="#">WhatsApp</a>
-        </div>
-      </div>
+    <article class="card span-4">
+      <div class="media"><img src="assets/optimized/Services/europe.webp" width="800" height="500" loading="lazy" decoding="async" alt="Europe transfers"></div>
+      <div class="card-body"><h3>Europe transfers</h3><p>Private routes from Prague to Vienna, Dresden, Munich, Berlin, Budapest and more.</p><div class="actions"><a class="btn" href="services.html">Learn more</a></div></div>
     </article>
-
-    <article class="svcCard">
-      <div class="svcMedia">
-        <img src="assets/services/airport-dropoff.jpg" alt="Airport drop-off" onerror="this.src='assets/Departure.jpg'">
-      </div>
-      <div class="svcBody">
-        <h3 class="svcTitle">5. خدمة التوديع إلى المطار</h3>
-        <p class="svcDesc muted" data-lang-block="en">Reliable airport drop-off — on time, comfortable, door-to-door.</p>
-        <p class="svcDesc muted" data-lang-block="cz">Spolehlivý odvoz na letiště — včas, pohodlně, od dveří ke dveřím.</p>
-        <p class="svcDesc muted" data-lang-block="ar">توديع إلى المطار بكل راحة والتزام بالمواعيد.</p>
-        <div class="svcActions">
-          <a class="btn primary" href="#dropoff">Details</a>
-          <a class="btn" data-wa href="#">WhatsApp</a>
-        </div>
-      </div>
+    <article class="card span-4">
+      <div class="media"><img src="assets/optimized/Services/daily-tours.webp" width="800" height="500" loading="lazy" decoding="async" alt="Daily tours"></div>
+      <div class="card-body"><h3>Daily tours</h3><p>Flexible private day trips from Prague with a professional driver.</p><div class="actions"><a class="btn" href="services.html">Learn more</a></div></div>
     </article>
-
-    <article class="svcCard">
-      <div class="svcMedia">
-        <img src="assets/services/airport-pickup.jpg" alt="Airport pickup" onerror="this.src='assets/Arrival.jpeg'">
-      </div>
-      <div class="svcBody">
-        <h3 class="svcTitle">6. خدمة الاستقبال من المطار</h3>
-        <p class="svcDesc muted" data-lang-block="en">Meet & greet at arrivals, help with luggage, smooth transfer.</p>
-        <p class="svcDesc muted" data-lang-block="cz">Vyzvednutí na příletech, pomoc se zavazadly, pohodlný transfer.</p>
-        <p class="svcDesc muted" data-lang-block="ar">استقبال من المطار ومرافقة مع المساعدة في الحقائب.</p>
-        <div class="svcActions">
-          <a class="btn primary" href="#pickup">Details</a>
-          <a class="btn" data-wa href="#">WhatsApp</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="svcCard">
-      <div class="svcMedia">
-        <img src="assets/services/car-rental.jpg" alt="Car rental" onerror="this.src='assets/Rent.jpg'">
-      </div>
-      <div class="svcBody">
-        <h3 class="svcTitle">7. خدمات تأجير السيارات</h3>
-        <p class="svcDesc muted" data-lang-block="en">Car rental with clear requirements and deposit by card.</p>
-        <p class="svcDesc muted" data-lang-block="cz">Pronájem aut s jasnými podmínkami a kaucí kartou.</p>
-        <p class="svcDesc muted" data-lang-block="ar">تأجير سيارات وفق شروط واضحة ووديعة تُدفع بالبطاقة.</p>
-        <div class="svcActions">
-          <a class="btn primary" href="#rental">Details</a>
-          <a class="btn" data-wa href="#">WhatsApp</a>
-        </div>
-      </div>
-    </article>
-
-  </section>
-
-  <!-- DETAILS SECTIONS (Arabic full + EN/CZ short) -->
-
-  <!-- 1) Daily Tours -->
-  <section class="sectionBox" id="daily-tours">
-    <h2>1) خدمة الرحلات والجولات اليومية</h2>
-
-    <div data-lang-block="en" class="muted">
-      Premium day trips from Prague (9–10 hours). Driver stays with you all day. Choose the destination, we handle the transport.
-    </div>
-
-    <div data-lang-block="cz" class="muted">
-      Celodenní výlety z Prahy (9–10 hodin). Řidič je s vámi po celý den. Vyberte cíl, my zajistíme dopravu.
-    </div>
-
-    <div data-lang-block="ar" class="muted">
-      استمتع برحلات يومية مميزة برفقة سائق محترف يبدأ بك من براغ ويرافقك طوال الرحلة، مع برنامج مرن يناسب الأفراد والأزواج والعائلات.
-      فيما يلي أشهر الوجهات:
-    </div>
-
-    <div class="cityGrid" data-lang-block="ar">
-      <div class="cityCard">
-        <img src="assets/Spinderluv Mlyn.jpg" alt="Špindlerův Mlýn">
-        <div class="cityBody">
-          <h4>أ) شبيندليروف ملين — Špindlerův Mlýn</h4>
-          <p>رحلة 9 ساعات مع سائق مرافق. استمتع بالثلوج، التزلج، الزلاجات، وأنشطة ممتعة. لا تنسى تجربة الجيروكوبتر لإطلالات خرافية على جبال كركونوشت.</p>
-        </div>
-      </div>
-
-      <div class="cityCard">
-        <img src="assets/Karlovy Vary.jpg" alt="Karlovy Vary">
-        <div class="cityBody">
-          <h4>ب) كارلوفي فاري — Karlovy Vary</h4>
-          <p>رحلة 9 ساعات من براغ. اكتشف الينابيع الحرارية، التنزه على نهر تيبلا، التلفريك إلى منصة ديانا، وقت حر للتسوق والمقاهي وخيارات السبا الاختيارية.</p>
-        </div>
-      </div>
-
-      <div class="cityCard">
-        <img src="assets/Cesky krumlov.jpg" alt="Český Krumlov">
-        <div class="cityBody">
-          <h4>ج) تشيسكي كروملوف — Český Krumlov</h4>
-          <p>رحلة 9 ساعات إلى مدينة تاريخية ضمن اليونسكو. تجول في الأزقة، زيارة القلعة وإطلالات نهر فلتافا، مطاعم ومقاهي، أنشطة صيفية بالقارب أو التجديف.</p>
-        </div>
-      </div>
-
-      <div class="cityCard">
-        <img src="assets/Dolni Morava.jpg" alt="Dolní Morava">
-        <div class="cityBody">
-          <h4>د) دولني مورافا — Dolní Morava</h4>
-          <p>رحلة 10 ساعات لوجهة جبلية رائعة. Sky Bridge أطول جسر معلق للمشاة، Sky Walk، تلفريك، مسارات طبيعية وأنشطة شتوية وصيفية.</p>
-        </div>
-      </div>
-
-      <div class="cityCard">
-        <img src="assets/Dresden.jpg" alt="Dresden">
-        <div class="cityBody">
-          <h4>هـ) دريسدن — Dresden</h4>
-          <p>رحلة 9 ساعات لمدينة ألمانية غنية بالفن والتاريخ: قصر تسفينغر، كنيسة السيدة العذراء، دار الأوبرا، نهر الإلبه، التسوق من شارع Prager Straße.</p>
-        </div>
-      </div>
-
-      <div class="cityCard">
-        <img src="assets/Prague.jpg" alt="Prague">
-        <div class="cityBody">
-          <h4>و) براغ — Prague (جولة داخلية)</h4>
-          <p>جولة 9 ساعات لاكتشاف براغ: جسر تشارلز، ساحة المدينة القديمة، الساعة الفلكية، قلعة براغ، وقت حر للتسوق والمقاهي وجولة نهرية اختيارية.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="priceBox" data-lang-block="ar">
-      <h3 style="margin:0 0 8px;">الأسعار (A–F)</h3>
-      <div class="noteLine">السعر لسيارة سيدان: <strong>٣٠٠ يورو</strong> (يشمل المركبة مع سائق مرافق لأي مدينة من المدن المذكورة أعلاه)</div>
-      <div class="noteLine">السعر للسيارة العائلية: <strong>٣٩٠ يورو</strong></div>
-      <div class="noteLine">تمديد المرافقة: <strong>٥٠ يورو</strong> لكل ساعة إضافية</div>
-      <div class="noteLine" style="margin-top:8px;">* لا يشمل السعر تكلفة الأنشطة أو التذاكر أو أي مصاريف دخول للفعاليات</div>
-      <div class="noteLine">* سعر الصرف: <strong>٢٥ كرونة تشيكية = ١ يورو</strong></div>
-    </div>
-  </section>
-
-  <!-- 2) Europe transfers -->
-  <section class="sectionBox" id="europe">
-    <h2>2) خدمات التوصيل لجميع أنحاء أوروبا</h2>
-
-    <div data-lang-block="ar" class="muted">
-      راحة، أمان، والتزام بالمواعيد أينما كانت وجهتك.
-      <br><br>
-      (سوف تضيف لاحقاً صورة الوجهات الشائعة والأسعار)
-    </div>
-
-    <div data-lang-block="en" class="muted">
-      Door-to-door transfers from Prague to any European city. Message us with: date, pickup, drop-off, passengers, luggage.
-    </div>
-
-    <div data-lang-block="cz" class="muted">
-      Transfer z Prahy do jakéhokoli evropského města. Napište nám datum, odkud/kam, počet osob a zavazadla.
-    </div>
-  </section>
-
-  <!-- 3) Programs -->
-  <section class="sectionBox" id="programs">
-    <h2>3) خدمة الفعاليات والبرامج</h2>
-
-    <div data-lang-block="en" class="muted">
-      Seasonal programs (summer/winter): nature trips, adventure activities, and shopping days. Ask us for availability.
-    </div>
-
-    <div data-lang-block="cz" class="muted">
-      Sezónní programy (léto/zima): příroda, adrenalin, nákupy. Kontaktujte nás pro dostupnost.
-    </div>
-
-    <div data-lang-block="ar" class="muted">
-      برامج صيفية وشتوية متنوعة — أدناه التفاصيل الكاملة:
-    </div>
-
-    <div data-lang-block="ar">
-      <details open>
-        <summary>أ) Summer Programs — البرامج الصيفية</summary>
-
-        <details>
-          <summary>1) برنامج الطبيعية الأول</summary>
-          <div class="muted">
-            🕖 وقت الانطلاق: ٧ صباحًا — وقت العودة: ٧ مساءً — مدة الخدمة: ١٢ ساعة<br>
-            🚗 الانطلاق من براغ إلى Český Ráj<br><br>
-            🥾 مشي خفيف ساعتين بين الغابات والتكوينات الصخرية (Skály) مناسب للعائلات والأطفال وعربات الأطفال<br><br>
-            ❄️ منتجع شبيندلروف ملين (Špindlerův Mlýn): Zipline • الزحليقة • تلفريك جبلي<br><br>
-            🍽️ ختام اليوم في مطعم مميز ثم العودة<br><br>
-            💰 الأسعار (الخدمة): 🚘 سيارة صغيرة ٤٠٠ يورو — 🚐 ميني فان ٤٥٠ يورو<br>
-            💰 الفعاليات: 👤 ٥٩ يورو للشخص (تشمل جميع الأنشطة)
-          </div>
-        </details>
-
-        <details>
-          <summary>2) برنامج الطبيعية الثاني</summary>
-          <div class="muted">
-            🕖 ٧ صباحًا إلى ٧ مساءً (١٢ ساعة)<br>
-            🚗 إلى حديقة ساكسون سويسرا الوطنية (Saxon Switzerland National Park)<br><br>
-            🥾 Skály • Bastei Bridge • Kuhstall Cave — مناسبة جدًا للعائلات (مسارات سهلة وآمنة)<br>
-            وقت حر 4–5 ساعات<br><br>
-            🎢 بعد العودة: Bobová dráha (السلايد)<br><br>
-            💰 (الخدمة): 🚘 ٤٠٠ يورو — 🚐 ٤٥٠ يورو<br>
-            💰 الفعاليات: 👤 ٥٤ يورو للشخص (تشمل الأنشطة)
-          </div>
-        </details>
-
-        <details>
-          <summary>3) برنامج المغامرات</summary>
-          <div class="muted">
-            🕖 ٩ صباحًا إلى ٧ مساءً (١٠ ساعات)<br>
-            🎯 رماية احترافية • ❄️ Paintball • 🏎️ Karting<br><br>
-            💰 (الخدمة): 🚘 ٣٠٠ يورو — 🚐 ٣٥٠ يورو<br>
-            💰 الفعاليات: 👤 ١٩٩ يورو للشخص (تشمل الأنشطة)
-          </div>
-        </details>
-
-        <details>
-          <summary>4) برنامج التسوق (Pandorf Outlet)</summary>
-          <div class="muted">
-            🕖 ٦ صباحًا إلى ٨ مساءً (١٤ ساعة)<br>
-            🛍️ ٦ ساعات تسوق في Pandorf Outlet + مطاعم ومقاهي<br><br>
-            💰 (الخدمة): 🚘 ٦٥٠ يورو — 🚐 ٧٥٠ يورو<br>
-            ✅ يشمل النقل ذهابًا وإيابًا
-          </div>
-        </details>
-
-      </details>
-
-      <details>
-        <summary>ب) Winter Programs — البرامج الشتوية</summary>
-
-        <details>
-          <summary>1) البرنامج الثلجي الأول</summary>
-          <div class="muted">
-            🕖 ٧ صباحًا إلى ٧ مساءً (١٢ ساعة)<br>
-            🏍️ سنو موبايل + ❄️ Špindlerův Mlýn (سنو تيوبينغ • تلفريك • جولات حرة)<br><br>
-            💰 (الخدمة): 🚘 ٤٠٠ يورو — 🚐 ٤٥٠ يورو<br>
-            💰 الفعاليات: 👤 ١٩٩ يورو للشخص<br><br>
-            ✨ إضافي: 🐎 عربة/زلاجة الخيول ٥٠ يورو للشخص (حسب الطقس)
-          </div>
-        </details>
-
-        <details>
-          <summary>2) البرنامج الثلجي الثاني</summary>
-          <div class="muted">
-            🕖 ٧ صباحًا إلى ٧ مساءً (١٢ ساعة)<br>
-            ❄️ Pec Nad Sněžkou • ⛰️ زيارة أعلى قمة • سنو تيوبينغ • تلفريك<br><br>
-            💰 (الخدمة): 🚘 ٤٠٠ يورو — 🚐 ٤٥٠ يورو<br>
-            💰 الفعاليات: 👤 ٧٥ يورو للشخص<br><br>
-            ✨ إضافي: 🐺 هاسكي ٢٢٠ يورو • 🏍️ سنو موبايل ١٢٥ يورو
-          </div>
-        </details>
-
-        <details>
-          <summary>3) برنامج المغامرات (شتوي)</summary>
-          <div class="muted">
-            🕖 ٩ صباحًا إلى ٧ مساءً (١٠ ساعات)<br>
-            🎯 رماية داخلية • ❄️ Paintball بأجواء ثلجية • 🏎️ Karting داخلي<br><br>
-            💰 (الخدمة): 🚘 ٣٠٠ يورو — 🚐 ٣٥٠ يورو<br>
-            💰 الفعاليات: 👤 ١٩٩ يورو للشخص
-          </div>
-        </details>
-
-        <details>
-          <summary>4) برنامج التسوق (شتوي)</summary>
-          <div class="muted">
-            🕖 ٦ صباحًا إلى ٨ مساءً (١٤ ساعة)<br>
-            🛍️ Pandorf Outlet (٦ ساعات تسوق)<br><br>
-            💰 (الخدمة): 🚘 ٦٥٠ يورو — 🚐 ٧٥٠ يورو
-          </div>
-        </details>
-
-      </details>
-
-      <p class="noteLine" style="margin-top:12px;">
-        (ستضيف صورة لكل برنامج لاحقاً)
-      </p>
-    </div>
-  </section>
-
-  <!-- 4) Private driver -->
-  <section class="sectionBox" id="driver">
-    <h2>4) خدمة سائق خاص مرافق</h2>
-    <div data-lang-block="ar" class="muted">
-      سائق خاص محترف يرافقك طوال مدة الإقامة، يوفر لك الراحة، الخصوصية، والتنقل السلس بين المدن والمعالم السياحية بكل أمان ومرونة — استمتع برحلتك واترك تفاصيل الطريق علينا.
-    </div>
-    <div data-lang-block="en" class="muted">
-      Private driver available for your full stay: flexible schedule, safe driving, and discreet service.
-    </div>
-    <div data-lang-block="cz" class="muted">
-      Soukromý řidič po dobu pobytu: flexibilita, bezpečnost a diskrétní služby.
-    </div>
-  </section>
-
-  <!-- 5) Airport drop-off -->
-  <section class="sectionBox" id="dropoff">
-    <h2>5) خدمة التوديع إلى المطار</h2>
-    <div data-lang-block="ar" class="muted">
-      خدمة توديع إلى المطار من الفندق أو أي موقع في المدينة، مع التزام بالمواعيد ومساعدة في الحقائب حسب الحاجة.
-    </div>
-    <div data-lang-block="en" class="muted">
-      Reliable airport drop-off from your hotel/home with punctual pickup and optional luggage help.
-    </div>
-    <div data-lang-block="cz" class="muted">
-      Odvoz na letiště z hotelu/domova, včasné vyzvednutí a pomoc se zavazadly dle potřeby.
-    </div>
-  </section>
-
-  <!-- 6) Airport pickup -->
-  <section class="sectionBox" id="pickup">
-    <h2>6) خدمة الاستقبال من المطار</h2>
-    <div data-lang-block="ar" class="muted">
-      استقبال من المطار مع إمكانية الاستقبال في صالة الوصول ومرافقة حتى السيارة، ونقل مريح إلى الفندق.
-    </div>
-    <div data-lang-block="en" class="muted">
-      Airport pickup with meet & greet option and comfortable transfer to your hotel.
-    </div>
-    <div data-lang-block="cz" class="muted">
-      Vyzvednutí na letišti (možnost meet & greet) a pohodlný transfer do hotelu.
-    </div>
-  </section>
-
-  <!-- 7) Car rental -->
-  <section class="sectionBox" id="rental">
-    <h2>7) خدمات تأجير السيارات</h2>
-
-    <div data-lang-block="ar" class="muted">
-      المتطلبات والشروط:
-      <br>1) عنوان محلي فعّال
-      <br>2) رخصة محلية
-      <br>3) جواز سفر
-      <br>4) الوديعة تُدفع حصراً بالبطاقة (٥٠٠٠ - ١٠٠٠٠ كرون تشيكي حسب نوع السيارة)
-      <br><br>
-      * للجنسيات السعودية، الكويتية والعُمانية، يُطلب رخصة دولية
-    </div>
-
-    <div data-lang-block="en" class="muted">
-      Car rental requirements: local address, driving license, passport, and card deposit (5,000–10,000 CZK depending on the car).
-      Saudi/Kuwaiti/Omani nationals require an international driving permit.
-    </div>
-
-    <div data-lang-block="cz" class="muted">
-      Podmínky pronájmu: lokální adresa, řidičský průkaz, pas a vratná kauce kartou (5 000–10 000 CZK dle vozu).
-      Pro občany Saúdské Arábie/Kuvajtu/Ománu je vyžadován mezinárodní řidičský průkaz.
-    </div>
-  </section>
-
-  <div class="heroActions" style="margin-top:22px;">
-    <a class="btn primary" href="quote.html" data-i18n="ctaQuote">Get a Quote</a>
-    <a class="btn" data-wa href="#" data-i18n="ctaWa">Book on WhatsApp</a>
-  </div>
-
+    <article class="card span-4">
+      <div class="media"><img src="assets/optimized/Services/events-programs.webp" width="800" height="500" loading="lazy" decoding="async" alt="Programs and events"></div>
+      <div class="card-body"><h3>Programs and events</h3><p>Seasonal activities, VIP programs and group logistics.</p><div class="actions"><a class="btn" href="services.html">Learn more</a></div></div>
+    </article></div></div></section>
+  <section class="section feature-band"><div class="container"><div class="feature-list"><article><h3>24/7 support</h3><p>WhatsApp, phone and email</p></article><article><h3>Flight tracking</h3><p>Arrival pickup timing</p></article><article><h3>Professional drivers</h3><p>Discreet, punctual service</p></article><article><h3>Fixed price quote</h3><p>Confirm price before booking</p></article></div></div></section>
+  <section class="section feature-band"><div class="container"><div class="section-head"><div><h2>Ready for a fixed transfer quote?</h2><p>Send the trip details and we will confirm the right vehicle and price.</p></div><div class="actions"><a class="btn primary" href="quote.html">Get fixed price</a><a class="btn whatsapp" data-wa href="#">Book on WhatsApp</a></div></div></div></section>
 </main>
-
-<div class="whatsapp-float">
-  <a data-wa href="#">WhatsApp • +420 775 091 730</a>
+<div class="whatsapp-float"><a data-wa href="#">WhatsApp - +420 775 091 730</a></div>
+<div class="mobile-cta">
+  <a class="btn whatsapp" data-wa href="#">WhatsApp</a>
+  <a class="btn primary" href="quote.html">Get fixed price</a>
 </div>
-
 <footer class="footer">
-  <div class="container">
-    <div class="small" data-i18n="footerNote"></div>
+  <div class="container footer-grid">
+    <div><strong>VIP Coach Transfers s.r.o.</strong><p>Luxury airport transfers, chauffeur service and group transport in Prague and Europe.</p></div>
+    <div><strong>Moulikova 2240/5, 150 00 Praha</strong><p>IČO 23693592<br>DIČ CZ23693592</p></div>
+    <div><strong>+420 775 091 730</strong><p><a href="mailto:info@vipct.org">info@vipct.org</a></p></div>
   </div>
 </footer>
-
-<script src="assets/data.js"></script>
-<script src="assets/app.js"></script>
+<script src="assets/data.js" defer></script>
+<script src="assets/app.js" defer></script>
 </body>
 </html>

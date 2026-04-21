@@ -1,391 +1,110 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Fleet | VIP Coach Transfers</title>
-  <link rel="stylesheet" href="assets/style.css" />
-
-  <style>
-    /* Fleet page additions (works with your existing style.css) */
-    .fleetHero{
-      position:relative;
-      border-radius:22px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow:0 20px 60px rgba(0,0,0,.45);
-      margin-top:10px;
-    }
-    .fleetHeroBg{
-      position:absolute; inset:0;
-      background:
-        radial-gradient(1200px 600px at 15% 30%, rgba(202,165,76,.28), transparent 60%),
-        radial-gradient(900px 500px at 85% 10%, rgba(255,255,255,.10), transparent 60%),
-        linear-gradient(120deg, rgba(0,0,0,.75), rgba(0,0,0,.35)),
-        url("assets/fleet-hero.jpg");
-      background-size:cover;
-      background-position:center;
-      filter:saturate(1.05);
-      transform:scale(1.02);
-    }
-    .fleetHeroContent{
-      position:relative;
-      padding:44px 26px;
-      display:grid;
-      gap:16px;
-      max-width:980px;
-    }
-    .fleetHeroTitle{
-      font-size: clamp(28px, 4vw, 44px);
-      margin:0;
-      letter-spacing:.2px;
-      line-height:1.08;
-    }
-    .fleetHeroSub{
-      margin:0;
-      color:rgba(255,255,255,.86);
-      font-size: clamp(14px, 1.6vw, 18px);
-      max-width: 720px;
-    }
-    .fleetHeroCtas{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-top:8px;
-    }
-
-    .fleetFilters{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:center;
-      margin:18px 0 10px;
-    }
-    .fleetChip{
-      cursor:pointer;
-      user-select:none;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06);
-      color:#fff;
-      font-weight:700;
-      letter-spacing:.2px;
-      transition:transform .15s ease, background .15s ease, border-color .15s ease, opacity .15s ease;
-    }
-    .fleetChip:hover{ transform:translateY(-1px); background:rgba(255,255,255,.10); }
-    .fleetChip.active{
-      border-color: rgba(202,165,76,.8);
-      background: rgba(202,165,76,.14);
-    }
-
-    .fleetGrid{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap:14px;
-      margin-top:14px;
-    }
-    .fleetCard{
-      grid-column: span 12;
-      overflow:hidden;
-      border-radius:20px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      box-shadow: 0 10px 30px rgba(0,0,0,.35);
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      min-height: 220px;
-    }
-    .fleetMedia{
-      position:relative;
-      min-height:220px;
-      background: #0c0c0c;
-    }
-    .fleetMedia img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      filter:saturate(1.05);
-    }
-    .fleetMedia:after{
-      content:"";
-      position:absolute; inset:0;
-      background: linear-gradient(90deg, rgba(0,0,0,.15), rgba(0,0,0,.65));
-      pointer-events:none;
-    }
-    .fleetBody{
-      padding:18px 18px 16px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      justify-content:center;
-    }
-    .fleetTop{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .fleetName{
-      margin:0;
-      font-size:20px;
-      line-height:1.2;
-    }
-    .fleetTag{
-      font-size:12px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      color:rgba(255,255,255,.85);
-      background: rgba(0,0,0,.20);
-      white-space:nowrap;
-    }
-    .fleetDesc{
-      margin:0;
-      color:rgba(255,255,255,.82);
-      font-size:14px;
-      line-height:1.45;
-    }
-    .fleetMeta{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:2px;
-    }
-    .fleetPill{
-      font-size:12px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.88);
-      padding:7px 10px;
-      border-radius:999px;
-    }
-    .fleetActions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:8px;
-    }
-    .fleetActions .btn{
-      padding:10px 14px;
-    }
-
-    /* responsive */
-    @media (max-width: 900px){
-      .fleetCard{ grid-template-columns: 1fr; }
-      .fleetMedia:after{ background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.70)); }
-    }
-
-    /* hide cards when filtered */
-    .isHidden{ display:none !important; }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  
+  <title>Premium fleet for every group size | VIP Coach Transfers s.r.o.</title>
+  <meta name="description" content="Choose the vehicle by passengers, luggage and occasion.">
+  <link rel="canonical" href="https://vipct.org/en/fleet.html">
+  <link rel="alternate" hreflang="en" href="https://vipct.org/en/fleet.html">
+  <link rel="alternate" hreflang="cs" href="https://vipct.org/cs/fleet.html">
+  <link rel="alternate" hreflang="ar" href="https://vipct.org/ar/fleet.html">
+  <link rel="alternate" hreflang="x-default" href="https://vipct.org/en/fleet.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Premium fleet for every group size | VIP Coach Transfers s.r.o.">
+  <meta property="og:description" content="Choose the vehicle by passengers, luggage and occasion.">
+  <meta property="og:url" content="https://vipct.org/en/fleet.html">
+  <meta property="og:image" content="https://vipct.org/assets/optimized/hero.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Premium fleet for every group size | VIP Coach Transfers s.r.o.">
+  <meta name="twitter:description" content="Choose the vehicle by passengers, luggage and occasion.">
+  <meta name="twitter:image" content="https://vipct.org/assets/optimized/hero.webp">
+  <link rel="stylesheet" href="assets/style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Premium fleet for every group size | VIP Coach Transfers s.r.o.","description":"Choose the vehicle by passengers, luggage and occasion.","provider":{"@type":"LocalBusiness","name":"VIP Coach Transfers s.r.o.","telephone":"+420 775 091 730","url":"https://vipct.org"},"areaServed":["Prague","Czechia","Central Europe"],"url":"https://vipct.org/en/fleet.html"}</script>
 </head>
-
-<body>
-<header>
+<body class="" data-page="fleet">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
   <div class="container nav">
-    <div class="brand">
-      <div class="logo">VIP</div>
-      <div>
-        <strong data-i18n="brand"></strong><br />
-        <span class="small">Prague • 24/7</span>
-      </div>
-    </div>
-
-    <nav class="links">
-      <a data-page="home" href="index.html" data-nav="home">Home</a>
-      <a data-page="services" href="services.html" data-nav="services">Services</a>
-      <a data-page="fleet" href="fleet.html" data-nav="fleet">Fleet</a>
-      <a data-page="programs" href="programs.html" data-nav="programs">Programs</a>
-      <a data-page="quote" href="quote.html" data-nav="quote">Get a Quote</a>
-      <a data-page="contact" href="contact.html" data-nav="contact">Contact</a>
-    </nav>
-
-    <div class="lang">
-      <button type="button" data-lang="en">EN</button>
-      <button type="button" data-lang="cz">CZ</button>
-      <button type="button" data-lang="ar">AR</button>
-    </div>
+    <a class="brand" href="index.html" aria-label="VIP Coach Transfers s.r.o.">
+      <span class="brand-mark"><img src="assets/optimized/logo-gold.webp" width="46" height="46" alt=""></span>
+      <span><span class="brand-name">VIP Coach Transfers s.r.o.</span><span class="brand-meta">Prague - 24/7</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary"><a href="index.html" data-nav="home">Home</a><a href="services.html" data-nav="services">Services</a><a href="fleet.html" data-nav="fleet">Fleet</a><a href="programs.html" data-nav="programs">Programs</a><a href="quote.html" data-nav="quote">Quote</a><a href="contact.html" data-nav="contact">Contact</a></nav>
+    <nav class="language-links" aria-label="Language"><a class="active" href="en/fleet.html" hreflang="en">EN</a><a href="cs/fleet.html" hreflang="cs">CS</a><a href="ar/fleet.html" hreflang="ar">AR</a></nav>
   </div>
 </header>
-
-<main class="container" style="padding:26px 0 44px">
-
-  <!-- HERO -->
-  <section class="fleetHero">
-    <div class="fleetHeroBg" aria-hidden="true"></div>
-    <div class="fleetHeroContent">
-      <h1 class="fleetHeroTitle" data-i18n="fleetTitle">Explore Our Premium Fleet</h1>
-      <p class="fleetHeroSub" data-i18n="fleetSubtitle">
-        Luxury transfers for every occasion — business, families, VIP events, and large groups.
-      </p>
-      <div class="fleetHeroCtas">
-        <a class="btn primary" href="quote.html" data-i18n="ctaQuote">Get a Quote</a>
-        <a class="btn" data-wa href="#" data-i18n="ctaWa">Book on WhatsApp</a>
-      </div>
-    </div>
+<main id="main">
+  <section class="hero" style="--hero-image:url('/assets/optimized/fleet-vclass.webp'); min-height:520px"><div class="container hero-content"><span class="eyebrow">VIP transfers in Prague and Europe</span><h1>Premium fleet for every group size</h1><p class="lead">Choose the vehicle by passengers, luggage and occasion.</p><div class="actions"><a class="btn primary" href="quote.html">Get fixed price</a><a class="btn whatsapp" data-wa href="#">Book on WhatsApp</a></div></div></section>
+  <section class="container trust-strip" aria-label="Trust signals">
+    <div class="trust-item"><strong>Licensed company</strong><span>IČO 23693592, DIČ CZ23693592</span></div><div class="trust-item"><strong>24/7 support</strong><span>WhatsApp, phone and email</span></div><div class="trust-item"><strong>Flight tracking</strong><span>Arrival pickup timing</span></div><div class="trust-item"><strong>Professional drivers</strong><span>Discreet, punctual service</span></div><div class="trust-item"><strong>Fixed price quote</strong><span>Confirm price before booking</span></div><div class="trust-item"><strong>Multilingual service</strong><span>English, Czech and Arabic</span></div>
   </section>
-
-  <!-- FILTERS -->
-  <div class="fleetFilters" role="tablist" aria-label="Fleet categories">
-    <button class="fleetChip active" type="button" data-filter="all" data-i18n="fleetFilterAll">All</button>
-    <button class="fleetChip" type="button" data-filter="sedan" data-i18n="fleetFilterSedan">Sedan (1–3)</button>
-    <button class="fleetChip" type="button" data-filter="van" data-i18n="fleetFilterVan">Van (4–7)</button>
-    <button class="fleetChip" type="button" data-filter="minibus" data-i18n="fleetFilterMinibus">Minibus (8–20)</button>
-    <button class="fleetChip" type="button" data-filter="coach" data-i18n="fleetFilterCoach">Coach (21+)</button>
-  </div>
-
-  <!-- GRID -->
-  <section class="fleetGrid" id="fleetGrid">
-
-    <!-- Sedan -->
-    <article class="fleetCard" data-category="sedan">
-      <div class="fleetMedia">
-        <!-- Replace images anytime (recommended) -->
-        <img src="assets/fleet-sedan.jpg" alt="Luxury Sedan" onerror="this.src='assets/Arrival.jpeg'">
-      </div>
-      <div class="fleetBody">
-        <div class="fleetTop">
-          <h3 class="fleetName" data-i18n="fleetSedanTitle">Luxury Sedan</h3>
-          <span class="fleetTag" data-i18n="fleetTagExec">Executive</span>
-        </div>
-        <p class="fleetDesc" data-i18n="fleetSedanDesc">
-          Ideal for airport transfers, business meetings, and private city rides with premium comfort.
-        </p>
-        <div class="fleetMeta">
-          <span class="fleetPill" data-i18n="fleetSeats13">Seats: 1–3</span>
-          <span class="fleetPill" data-i18n="fleetLuggage23">Luggage: 2–3</span>
-          <span class="fleetPill" data-i18n="fleetAmenWaterWifi">Wi-Fi • Water</span>
-        </div>
-        <div class="fleetActions">
-          <a class="btn primary" href="quote.html" data-i18n="fleetBtnQuote">Get a Quote</a>
-          <a class="btn" data-wa href="#" data-i18n="fleetBtnWa">WhatsApp</a>
+  <section class="section"><div class="container"><div class="grid">
+    <article class="card span-6">
+      <div class="media"><img src="assets/optimized/fleet-sedan.webp" width="900" height="560" loading="lazy" decoding="async" alt="Luxury Sedan"></div>
+      <div class="card-body">
+        <h3>Luxury Sedan</h3>
+        <p>Airport transfers, executives and private city rides</p>
+        <div class="pill-list">
+          <span class="pill">Capacity: 1-3</span>
+          <span class="pill">Luggage: 2-3 bags</span>
+          <span class="pill">Wi-Fi, water, comfortable cabin</span>
         </div>
       </div>
     </article>
-
-    <!-- Van -->
-    <article class="fleetCard" data-category="van">
-      <div class="fleetMedia">
-        <img src="assets/fleet-vclass.jpg" alt="Mercedes V-Class" onerror="this.src='assets/Arrival.jpeg'">
-      </div>
-      <div class="fleetBody">
-        <div class="fleetTop">
-          <h3 class="fleetName" data-i18n="fleetVclassTitle">Mercedes V-Class</h3>
-          <span class="fleetTag" data-i18n="fleetTagVip">VIP Comfort</span>
-        </div>
-        <p class="fleetDesc" data-i18n="fleetVclassDesc">
-          Perfect for families and small groups. Spacious cabin, smooth ride, and premium interior.
-        </p>
-        <div class="fleetMeta">
-          <span class="fleetPill" data-i18n="fleetSeats47">Seats: 4–7</span>
-          <span class="fleetPill" data-i18n="fleetLuggage57">Luggage: 5–7</span>
-          <span class="fleetPill" data-i18n="fleetAmenLeather">Leather • Climate</span>
-        </div>
-        <div class="fleetActions">
-          <a class="btn primary" href="quote.html" data-i18n="fleetBtnQuote">Get a Quote</a>
-          <a class="btn" data-wa href="#" data-i18n="fleetBtnWa">WhatsApp</a>
+    <article class="card span-6">
+      <div class="media"><img src="assets/optimized/fleet-vclass.webp" width="900" height="560" loading="lazy" decoding="async" alt="Mercedes V-Class"></div>
+      <div class="card-body">
+        <h3>Mercedes V-Class</h3>
+        <p>Families, VIP guests and small groups</p>
+        <div class="pill-list">
+          <span class="pill">Capacity: 4-7</span>
+          <span class="pill">Luggage: 5-7 bags</span>
+          <span class="pill">Spacious cabin, climate, luggage room</span>
         </div>
       </div>
     </article>
-
-    <!-- Minibus -->
-    <article class="fleetCard" data-category="minibus">
-      <div class="fleetMedia">
-        <img src="assets/fleet-minibus.jpg" alt="Luxury Minibus" onerror="this.src='assets/Arrival.jpeg'">
-      </div>
-      <div class="fleetBody">
-        <div class="fleetTop">
-          <h3 class="fleetName" data-i18n="fleetMinibusTitle">Luxury Minibus</h3>
-          <span class="fleetTag" data-i18n="fleetTagGroups">Groups</span>
-        </div>
-        <p class="fleetDesc" data-i18n="fleetMinibusDesc">
-          Great for airport transfers, tours, corporate outings, and wedding guests — comfortable and reliable.
-        </p>
-        <div class="fleetMeta">
-          <span class="fleetPill" data-i18n="fleetSeats820">Seats: 8–20</span>
-          <span class="fleetPill" data-i18n="fleetLuggage1020">Bags: 10–20</span>
-          <span class="fleetPill" data-i18n="fleetAmenAc">A/C • Extra Space</span>
-        </div>
-        <div class="fleetActions">
-          <a class="btn primary" href="quote.html" data-i18n="fleetBtnQuote">Get a Quote</a>
-          <a class="btn" data-wa href="#" data-i18n="fleetBtnWa">WhatsApp</a>
+    <article class="card span-6">
+      <div class="media"><img src="assets/optimized/fleet-minibus.webp" width="900" height="560" loading="lazy" decoding="async" alt="Luxury Minibus"></div>
+      <div class="card-body">
+        <h3>Luxury Minibus</h3>
+        <p>Tours, corporate groups and events</p>
+        <div class="pill-list">
+          <span class="pill">Capacity: 8-20</span>
+          <span class="pill">Luggage: 10-20 bags</span>
+          <span class="pill">A/C, extra space, group logistics</span>
         </div>
       </div>
     </article>
-
-    <!-- Coach -->
-    <article class="fleetCard" data-category="coach">
-      <div class="fleetMedia">
-        <img src="assets/fleet-coach.jpg" alt="Executive Coach" onerror="this.src='assets/Arrival.jpeg'">
-      </div>
-      <div class="fleetBody">
-        <div class="fleetTop">
-          <h3 class="fleetName" data-i18n="fleetCoachTitle">Executive Coaches</h3>
-          <span class="fleetTag" data-i18n="fleetTagEvents">Events</span>
-        </div>
-        <p class="fleetDesc" data-i18n="fleetCoachDesc">
-          For large groups, conferences, tours, and VIP events. Professional driver, smooth logistics, premium service.
-        </p>
-        <div class="fleetMeta">
-          <span class="fleetPill" data-i18n="fleetSeats2160">Seats: 21–60+</span>
-          <span class="fleetPill" data-i18n="fleetAmenMic">A/C • Microphone</span>
-          <span class="fleetPill" data-i18n="fleetAmenLarge">Large Luggage</span>
-        </div>
-        <div class="fleetActions">
-          <a class="btn primary" href="quote.html" data-i18n="fleetBtnQuote">Get a Quote</a>
-          <a class="btn" data-wa href="#" data-i18n="fleetBtnWa">WhatsApp</a>
+    <article class="card span-6">
+      <div class="media"><img src="assets/optimized/fleet-coach.webp" width="900" height="560" loading="lazy" decoding="async" alt="Executive Coach"></div>
+      <div class="card-body">
+        <h3>Executive Coach</h3>
+        <p>Conferences, delegations and large groups</p>
+        <div class="pill-list">
+          <span class="pill">Capacity: 21-60+</span>
+          <span class="pill">Luggage: Large luggage</span>
+          <span class="pill">A/C, microphone, long-distance comfort</span>
         </div>
       </div>
-    </article>
-
-  </section>
-
-  <div class="heroActions" style="margin-top:22px;">
-    <a class="btn primary" href="quote.html" data-i18n="ctaQuote">Get a Quote</a>
-    <a class="btn" data-wa href="#" data-i18n="ctaWa">Book on WhatsApp</a>
-  </div>
-
+    </article></div></div></section>
+  <section class="section"><div class="container"><table class="comparison"><thead><tr><th>Best for</th><th>Capacity</th><th>Luggage</th><th>Amenities</th></tr></thead><tbody><tr><th>Luxury Sedan</th><td>1-3</td><td>2-3 bags</td><td>Wi-Fi, water, comfortable cabin<br>Airport transfers, executives and private city rides</td></tr><tr><th>Mercedes V-Class</th><td>4-7</td><td>5-7 bags</td><td>Spacious cabin, climate, luggage room<br>Families, VIP guests and small groups</td></tr><tr><th>Luxury Minibus</th><td>8-20</td><td>10-20 bags</td><td>A/C, extra space, group logistics<br>Tours, corporate groups and events</td></tr><tr><th>Executive Coach</th><td>21-60+</td><td>Large luggage</td><td>A/C, microphone, long-distance comfort<br>Conferences, delegations and large groups</td></tr></tbody></table></div></section>
+  <section class="section feature-band"><div class="container"><div class="section-head"><div><h2>Ready for a fixed transfer quote?</h2><p>Send the trip details and we will confirm the right vehicle and price.</p></div><div class="actions"><a class="btn primary" href="quote.html">Get fixed price</a><a class="btn whatsapp" data-wa href="#">Book on WhatsApp</a></div></div></div></section>
 </main>
-
-<div class="whatsapp-float">
-  <a data-wa href="#">WhatsApp • +420 775 091 730</a>
+<div class="whatsapp-float"><a data-wa href="#">WhatsApp - +420 775 091 730</a></div>
+<div class="mobile-cta">
+  <a class="btn whatsapp" data-wa href="#">WhatsApp</a>
+  <a class="btn primary" href="quote.html">Get fixed price</a>
 </div>
-
 <footer class="footer">
-  <div class="container">
-    <div class="small" data-i18n="footerNote"></div>
+  <div class="container footer-grid">
+    <div><strong>VIP Coach Transfers s.r.o.</strong><p>Luxury airport transfers, chauffeur service and group transport in Prague and Europe.</p></div>
+    <div><strong>Moulikova 2240/5, 150 00 Praha</strong><p>IČO 23693592<br>DIČ CZ23693592</p></div>
+    <div><strong>+420 775 091 730</strong><p><a href="mailto:info@vipct.org">info@vipct.org</a></p></div>
   </div>
 </footer>
-
-<script src="assets/data.js"></script>
-<script src="assets/app.js"></script>
-
-<script>
-  // Simple fleet filter (no dependency)
-  (function(){
-    const chips = Array.from(document.querySelectorAll(".fleetChip"));
-    const cards = Array.from(document.querySelectorAll(".fleetCard"));
-
-    function setActive(btn){
-      chips.forEach(c => c.classList.toggle("active", c === btn));
-    }
-    function applyFilter(filter){
-      cards.forEach(card => {
-        const cat = card.getAttribute("data-category");
-        const show = (filter === "all") || (cat === filter);
-        card.classList.toggle("isHidden", !show);
-      });
-    }
-
-    chips.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const filter = btn.getAttribute("data-filter");
-        setActive(btn);
-        applyFilter(filter);
-      });
-    });
-  })();
-</script>
-
+<script src="assets/data.js" defer></script>
+<script src="assets/app.js" defer></script>
 </body>
 </html>
