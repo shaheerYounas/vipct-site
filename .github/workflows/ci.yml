@@ -1,0 +1,28 @@
+name: VIPCT static site checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run optimize:images
+      - run: npm run generate
+      - run: npm run check
+      - name: Lighthouse smoke
+        run: |
+          npm run serve &
+          for i in {1..20}; do
+            curl -fsS http://127.0.0.1:5500/index.html >/dev/null && break
+            sleep 1
+          done
+          npx --yes lighthouse@13.1.0 http://127.0.0.1:5500/index.html --quiet --chrome-flags="--headless=new --no-sandbox" --output=json --output-path=/tmp/lh-index.json
+          npx --yes lighthouse@13.1.0 http://127.0.0.1:5500/quote.html --quiet --chrome-flags="--headless=new --no-sandbox" --output=json --output-path=/tmp/lh-quote.json

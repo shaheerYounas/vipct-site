@@ -6,7 +6,7 @@
   "scripts": {
     "generate": "node scripts/generate-site.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
-    "check:js": "node --check assets/app.js && node --check assets/data.js && node --check assets/quote.js && node --check assets/thankyou.js && node --check scripts/generate-site.mjs && node --check scripts/optimize-images.mjs && node --check scripts/check-assets.mjs",
+    "check:js": "node --check assets/app.js && node --check assets/quote.js && node --check assets/thankyou.js && node --check scripts/generate-site.mjs && node --check scripts/optimize-images.mjs && node --check scripts/check-assets.mjs",
     "check:assets": "node scripts/check-assets.mjs",
     "check": "npm run check:js && npm run check:assets",
     "serve": "python -m http.server 5500 --bind 127.0.0.1"

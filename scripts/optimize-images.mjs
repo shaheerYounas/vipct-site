@@ -6,6 +6,7 @@ const root = process.cwd();
 const assetsDir = path.join(root, "assets");
 const outDir = path.join(assetsDir, "optimized");
 const imageExt = new Set([".jpg", ".jpeg", ".png"]);
+const widths = [480, 768, 1024, 1400];
 
 async function walk(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -43,11 +44,35 @@ for (const file of images) {
   if (!meta.width || !meta.height) throw new Error(`Invalid image: ${rel}`);
   const maxWidth = maxWidthFor(rel.replaceAll("\\", "/"));
 
-  await input
-    .rotate()
-    .resize({ width: Math.min(meta.width, maxWidth), withoutEnlargement: true })
-    .webp({ quality: 78, effort: 5 })
+  const normalized = input.rotate();
+  const baseWidth = Math.min(meta.width, maxWidth);
+
+  await normalized
+    .clone()
+    .resize({ width: baseWidth, withoutEnlargement: true })
+    .webp({ quality: rel.startsWith("programs") ? 72 : 78, effort: 5 })
     .toFile(target);
+
+  await normalized
+    .clone()
+    .resize({ width: baseWidth, withoutEnlargement: true })
+    .avif({ quality: rel.startsWith("programs") ? 48 : 55, effort: 5 })
+    .toFile(path.join(outDir, parsed.dir, `${parsed.name}.avif`));
+
+  for (const width of widths) {
+    const variantWidth = Math.min(width, maxWidth);
+    await normalized
+      .clone()
+      .resize({ width: variantWidth, withoutEnlargement: true })
+      .webp({ quality: rel.startsWith("programs") ? 72 : 78, effort: 5 })
+      .toFile(path.join(outDir, parsed.dir, `${parsed.name}-${width}.webp`));
+
+    await normalized
+      .clone()
+      .resize({ width: variantWidth, withoutEnlargement: true })
+      .avif({ quality: rel.startsWith("programs") ? 48 : 55, effort: 5 })
+      .toFile(path.join(outDir, parsed.dir, `${parsed.name}-${width}.avif`));
+  }
 
   console.log(`${rel} -> ${path.relative(root, target)}`);
 }

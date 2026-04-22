@@ -10,6 +10,9 @@ const ADDRESS = "Moulikova 2240/5, 150 00 Praha";
 const COMPANY = "VIP Coach Transfers s.r.o.";
 const ICO = "23693592";
 const VAT = "CZ23693592";
+const ASSET_VERSION = "20260422";
+const MAP_URL = "https://www.google.com/maps/search/?api=1&query=Moulikova%202240%2F5%2C%20150%2000%20Praha";
+const RESPONSIVE_WIDTHS = [480, 768, 1024, 1400];
 
 const languages = {
   en: { label: "EN", html: "en", dir: "ltr", folder: "en" },
@@ -23,6 +26,7 @@ const copy = {
     nav: ["Home", "Services", "Fleet", "Programs", "Quote", "Contact"],
     ctaQuote: "Get fixed price",
     ctaWhatsApp: "Book on WhatsApp",
+    responseTime: "Usually replies within minutes on WhatsApp.",
     heroEyebrow: "VIP transfers in Prague and Europe",
     homeTitle: "Private Prague airport and Europe transfers",
     homeLead: "Premium sedans, Mercedes V-Class vans, minibuses and coaches for airport pickups, private chauffeur service, city-to-city routes and VIP programs.",
@@ -46,6 +50,9 @@ const copy = {
       programsTitle: "Private programs from Prague",
       programsText: "Day trips and seasonal activities with flexible timing and professional drivers.",
       faqTitle: "Booking questions",
+      proofTitle: "Trusted for airport arrivals, routes and VIP groups",
+      proofText: "Every request is reviewed manually so the vehicle, luggage space, pickup timing and fixed price are clear before travel.",
+      proofQuote: "Flight tracking, clear quotes and the right vehicle before pickup.",
       finalTitle: "Ready for a fixed transfer quote?",
       finalText: "Send the trip details and we will confirm the right vehicle and price."
     },
@@ -67,6 +74,8 @@ const copy = {
       passengers: "Passengers",
       luggage: "Luggage",
       vehicle: "Vehicle preference",
+      flightNumber: "Flight number",
+      childSeats: "Child seats",
       name: "Name",
       phone: "Phone",
       email: "Email",
@@ -77,10 +86,18 @@ const copy = {
       modalTitle: "Confirm WhatsApp request",
       modalLead: "Review the message before opening WhatsApp.",
       cancel: "Cancel",
-      sendWa: "Send via WhatsApp"
+      sendWa: "Send via WhatsApp",
+      presetsTitle: "Fast route presets",
+      presetsText: "Choose a common route to prefill the quote form.",
+      liveTitle: "Live request summary",
+      liveRoute: "Route",
+      liveTiming: "Timing",
+      liveVehicle: "Vehicle",
+      liveContact: "Contact"
     },
     contactTitle: "Contact VIP Coach Transfers",
     contactLead: "For the fastest reply, send your route and travel time on WhatsApp.",
+    mapOpen: "Open in Google Maps",
     thankTitle: "Thank you",
     thankLead: "Your request details are ready. If WhatsApp did not open, use the button below.",
     newQuote: "New quote",
@@ -99,6 +116,7 @@ const copy = {
     nav: ["Domu", "Sluzby", "Vozovy park", "Programy", "Poptavka", "Kontakt"],
     ctaQuote: "Ziskat pevnou cenu",
     ctaWhatsApp: "Rezervovat pres WhatsApp",
+    responseTime: "Na WhatsAppu obvykle odpovidame behem nekolika minut.",
     heroEyebrow: "VIP transfery v Praze a Evrope",
     homeTitle: "Soukrome transfery z letiste Praha a po Evrope",
     homeLead: "Premiove sedany, Mercedes V-Class, minibusy a autobusy pro letistni transfery, soukromeho ridice, mezimestske trasy a VIP programy.",
@@ -122,6 +140,9 @@ const copy = {
       programsTitle: "Soukrome programy z Prahy",
       programsText: "Vylety a sezonni aktivity s flexibilnim casem a profesionalnimi ridici.",
       faqTitle: "Dotazy k rezervaci",
+      proofTitle: "Duvera pro letistni prijezdy, trasy a VIP skupiny",
+      proofText: "Kazdou poptavku kontrolujeme rucne, aby bylo jasne vozidlo, zavazadla, cas vyzvednuti a pevna cena pred cestou.",
+      proofQuote: "Sledovani letu, jasna cena a spravne vozidlo pred vyzvednutim.",
       finalTitle: "Chcete pevnou cenu transferu?",
       finalText: "Poslete detaily cesty a potvrdime vhodne vozidlo i cenu."
     },
@@ -143,6 +164,8 @@ const copy = {
       passengers: "Cestujici",
       luggage: "Zavazadla",
       vehicle: "Preferovane vozidlo",
+      flightNumber: "Cislo letu",
+      childSeats: "Detske sedacky",
       name: "Jmeno",
       phone: "Telefon",
       email: "Email",
@@ -153,10 +176,18 @@ const copy = {
       modalTitle: "Potvrdit WhatsApp poptavku",
       modalLead: "Zkontrolujte zpravu pred otevrenim WhatsApp.",
       cancel: "Zrusit",
-      sendWa: "Odeslat pres WhatsApp"
+      sendWa: "Odeslat pres WhatsApp",
+      presetsTitle: "Rychle predvolby tras",
+      presetsText: "Vyberte oblibenou trasu a formular se predvyplni.",
+      liveTitle: "Souhrn poptavky",
+      liveRoute: "Trasa",
+      liveTiming: "Cas",
+      liveVehicle: "Vozidlo",
+      liveContact: "Kontakt"
     },
     contactTitle: "Kontakt VIP Coach Transfers",
     contactLead: "Nejrychlejsi odpoved ziskate pres WhatsApp s trasou a casem cesty.",
+    mapOpen: "Otevrit v Google Maps",
     thankTitle: "Dekujeme",
     thankLead: "Detaily poptavky jsou pripravene. Pokud se WhatsApp neotevrel, pouzijte tlacitko nize.",
     newQuote: "Nova poptavka",
@@ -175,6 +206,7 @@ const copy = {
     nav: ["الرئيسية", "الخدمات", "الأسطول", "البرامج", "عرض سعر", "تواصل"],
     ctaQuote: "احصل على سعر ثابت",
     ctaWhatsApp: "احجز عبر واتساب",
+    responseTime: "نرد غالباً خلال دقائق عبر واتساب.",
     heroEyebrow: "تنقلات VIP في براغ وأوروبا",
     homeTitle: "تنقلات خاصة من مطار براغ وإلى مدن أوروبا",
     homeLead: "سيارات سيدان فاخرة، مرسيدس V-Class، ميني باص وحافلات للرحلات من المطار، السائق الخاص، التنقل بين المدن والبرامج السياحية.",
@@ -198,6 +230,9 @@ const copy = {
       programsTitle: "برامج خاصة من براغ",
       programsText: "رحلات يومية وأنشطة موسمية مع توقيت مرن وسائقين محترفين.",
       faqTitle: "أسئلة الحجز",
+      proofTitle: "ثقة لرحلات المطار والمسارات ومجموعات VIP",
+      proofText: "نراجع كل طلب يدوياً لتأكيد السيارة، مساحة الحقائب، وقت الاستقبال والسعر الثابت قبل السفر.",
+      proofQuote: "متابعة الرحلات، أسعار واضحة والسيارة المناسبة قبل الاستقبال.",
       finalTitle: "هل تريد سعر نقل ثابت؟",
       finalText: "أرسل تفاصيل الرحلة وسنؤكد السيارة المناسبة والسعر."
     },
@@ -219,6 +254,8 @@ const copy = {
       passengers: "عدد الركاب",
       luggage: "الأمتعة",
       vehicle: "السيارة المفضلة",
+      flightNumber: "رقم الرحلة",
+      childSeats: "مقاعد أطفال",
       name: "الاسم",
       phone: "الهاتف",
       email: "البريد الإلكتروني",
@@ -229,10 +266,18 @@ const copy = {
       modalTitle: "تأكيد طلب واتساب",
       modalLead: "راجع الرسالة قبل فتح واتساب.",
       cancel: "إلغاء",
-      sendWa: "إرسال عبر واتساب"
+      sendWa: "إرسال عبر واتساب",
+      presetsTitle: "مسارات سريعة",
+      presetsText: "اختر مساراً شائعاً لتعبئة نموذج السعر تلقائياً.",
+      liveTitle: "ملخص الطلب",
+      liveRoute: "المسار",
+      liveTiming: "الوقت",
+      liveVehicle: "السيارة",
+      liveContact: "التواصل"
     },
     contactTitle: "تواصل مع VIP Coach Transfers",
     contactLead: "لأسرع رد، أرسل المسار ووقت الرحلة عبر واتساب.",
+    mapOpen: "افتح في خرائط Google",
     thankTitle: "شكراً لك",
     thankLead: "تفاصيل طلبك جاهزة. إذا لم يفتح واتساب، استخدم الزر أدناه.",
     newQuote: "طلب جديد",
@@ -395,28 +440,28 @@ const faq = {
 
 const programs = {
   en: [
-    ["Cesky Krumlov", "Historic private day trip from Prague with flexible stops.", images.cesky],
-    ["Karlovy Vary", "Spa town transfer with free time for walking, cafes and optional wellness.", images.karlovy],
-    ["Dresden", "Private transfer or day trip for art, shopping and old town sightseeing.", images.dresden],
-    ["Spindleruv Mlyn", "Mountain program for snow, nature and seasonal activities.", images.spindl],
-    ["Dolni Morava", "Sky Bridge, mountain views and outdoor activities.", images.dolni],
-    ["Adventure Prague", "Private activity program for groups and events.", images.action]
+    ["cesky", "Cesky Krumlov", "Historic private day trip from Prague with flexible stops.", "Approx. 10-11 hours", "Best in spring, summer and autumn", "Couples, families and private groups", "Sedan, V-Class or minibus", images.cesky],
+    ["karlovy", "Karlovy Vary", "Spa town transfer with free time for walking, cafes and optional wellness.", "Approx. 8-9 hours", "Year-round spa program", "Wellness trips and private sightseeing", "Sedan or V-Class", images.karlovy],
+    ["dresden", "Dresden", "Private transfer or day trip for art, shopping and old town sightseeing.", "Approx. 8-10 hours", "Year-round city trip", "Shopping, museums and old town visits", "Sedan, V-Class or minibus", images.dresden],
+    ["spindl", "Spindleruv Mlyn", "Mountain program for snow, nature and seasonal activities.", "Full-day mountain program", "Winter snow and summer nature", "Families and active groups", "V-Class or minibus", images.spindl],
+    ["dolni", "Dolni Morava", "Sky Bridge, mountain views and outdoor activities.", "Full-day mountain program", "Spring to autumn activities", "Outdoor and adventure groups", "V-Class or minibus", images.dolni],
+    ["adventure", "Adventure Prague", "Private activity program for groups and events.", "Flexible timing", "Best for events and group programs", "Corporate groups, friends and VIP guests", "V-Class, minibus or coach", images.action]
   ],
   cs: [
-    ["Cesky Krumlov", "Historicky soukromy vylet z Prahy s flexibilnimi zastavkami.", images.cesky],
-    ["Karlovy Vary", "Transfer do lazni s volnym casem na prochazku, kavarny a wellness.", images.karlovy],
-    ["Drazdany", "Soukromy transfer nebo vylet za umenim, nakupy a historickym centrem.", images.dresden],
-    ["Spindleruv Mlyn", "Horsky program pro snih, prirodu a sezonni aktivity.", images.spindl],
-    ["Dolni Morava", "Sky Bridge, horske vyhledy a venkovni aktivity.", images.dolni],
-    ["Adventure Prague", "Soukromy program aktivit pro skupiny a udalosti.", images.action]
+    ["cesky", "Cesky Krumlov", "Historicky soukromy vylet z Prahy s flexibilnimi zastavkami.", "Priblizne 10-11 hodin", "Jaro, leto a podzim", "Pary, rodiny a soukrome skupiny", "Sedan, V-Class nebo minibus", images.cesky],
+    ["karlovy", "Karlovy Vary", "Transfer do lazni s volnym casem na prochazku, kavarny a wellness.", "Priblizne 8-9 hodin", "Lazensky program po cely rok", "Wellness a soukrome prohlidky", "Sedan nebo V-Class", images.karlovy],
+    ["dresden", "Drazdany", "Soukromy transfer nebo vylet za umenim, nakupy a historickym centrem.", "Priblizne 8-10 hodin", "Mestsky vylet po cely rok", "Nakupy, muzea a historicke centrum", "Sedan, V-Class nebo minibus", images.dresden],
+    ["spindl", "Spindleruv Mlyn", "Horsky program pro snih, prirodu a sezonni aktivity.", "Celodenni horsky program", "Zimni snih a letni priroda", "Rodiny a aktivni skupiny", "V-Class nebo minibus", images.spindl],
+    ["dolni", "Dolni Morava", "Sky Bridge, horske vyhledy a venkovni aktivity.", "Celodenni horsky program", "Aktivity od jara do podzimu", "Outdoor a dobrodruzne skupiny", "V-Class nebo minibus", images.dolni],
+    ["adventure", "Adventure Prague", "Soukromy program aktivit pro skupiny a udalosti.", "Flexibilni cas", "Vhodne pro akce a skupiny", "Firmy, pratele a VIP hoste", "V-Class, minibus nebo autobus", images.action]
   ],
   ar: [
-    ["تشيسكي كروملوف", "رحلة يومية تاريخية من براغ مع توقفات مرنة.", images.cesky],
-    ["كارلوفي فاري", "نقل إلى مدينة السبا مع وقت حر للمشي والمقاهي والسبا.", images.karlovy],
-    ["دريسدن", "نقل خاص أو رحلة يومية للفن والتسوق والمدينة القديمة.", images.dresden],
-    ["شبيندلروف ملين", "برنامج جبلي للثلج والطبيعة والأنشطة الموسمية.", images.spindl],
-    ["دولني مورافا", "Sky Bridge وإطلالات جبلية وأنشطة خارجية.", images.dolni],
-    ["مغامرات براغ", "برنامج أنشطة خاص للمجموعات والفعاليات.", images.action]
+    ["cesky", "تشيسكي كروملوف", "رحلة يومية تاريخية من براغ مع توقفات مرنة.", "حوالي 10-11 ساعة", "الأفضل في الربيع والصيف والخريف", "الأزواج والعائلات والمجموعات الخاصة", "سيدان، V-Class أو ميني باص", images.cesky],
+    ["karlovy", "كارلوفي فاري", "نقل إلى مدينة السبا مع وقت حر للمشي والمقاهي والسبا.", "حوالي 8-9 ساعات", "برنامج سبا طوال العام", "رحلات wellness ومشاهدة خاصة", "سيدان أو V-Class", images.karlovy],
+    ["dresden", "دريسدن", "نقل خاص أو رحلة يومية للفن والتسوق والمدينة القديمة.", "حوالي 8-10 ساعات", "رحلة مدينة طوال العام", "تسوق، متاحف والمدينة القديمة", "سيدان، V-Class أو ميني باص", images.dresden],
+    ["spindl", "شبيندلروف ملين", "برنامج جبلي للثلج والطبيعة والأنشطة الموسمية.", "برنامج جبلي ليوم كامل", "ثلج في الشتاء وطبيعة في الصيف", "العائلات والمجموعات النشطة", "V-Class أو ميني باص", images.spindl],
+    ["dolni", "دولني مورافا", "Sky Bridge وإطلالات جبلية وأنشطة خارجية.", "برنامج جبلي ليوم كامل", "أنشطة من الربيع إلى الخريف", "مجموعات المغامرة والأنشطة الخارجية", "V-Class أو ميني باص", images.dolni],
+    ["adventure", "مغامرات براغ", "برنامج أنشطة خاص للمجموعات والفعاليات.", "توقيت مرن", "مناسب للفعاليات والمجموعات", "شركات، أصدقاء وضيوف VIP", "V-Class، ميني باص أو حافلة", images.action]
   ]
 };
 
@@ -433,8 +478,42 @@ function asset(lang, p) {
   return prefix + p.replaceAll(" ", "%20");
 }
 
-function cssAsset(p) {
-  return `/${p.replaceAll(" ", "%20")}`;
+function versionedAsset(lang, p) {
+  return `${asset(lang, p)}?v=${ASSET_VERSION}`;
+}
+
+function imageVariant(p, width, ext = "webp") {
+  return p.replace(/\.webp$/i, `-${width}.${ext}`);
+}
+
+function imageBase(p, ext = "webp") {
+  return p.replace(/\.webp$/i, `.${ext}`);
+}
+
+function imageSrcset(lang, p, ext = "webp") {
+  return RESPONSIVE_WIDTHS.map((width) => `${asset(lang, imageVariant(p, width, ext))} ${width}w`).join(", ");
+}
+
+function picture(lang, img, alt, { width = 900, height = 560, sizes = "(max-width: 720px) 100vw, (max-width: 1020px) 50vw, 33vw", loading = "lazy", fetchpriority = "" } = {}) {
+  const priority = fetchpriority ? ` fetchpriority="${fetchpriority}"` : "";
+  return `<picture>
+          <source type="image/avif" srcset="${imageSrcset(lang, img, "avif")}" sizes="${sizes}">
+          <source type="image/webp" srcset="${imageSrcset(lang, img, "webp")}" sizes="${sizes}">
+          <img src="${asset(lang, img)}" srcset="${imageSrcset(lang, img, "webp")}" sizes="${sizes}" width="${width}" height="${height}" loading="${loading}" decoding="async"${priority} alt="${esc(alt)}">
+        </picture>`;
+}
+
+function heroSection(lang, title, text, image, { minHeight = "", extra = "" } = {}) {
+  const c = copy[lang === "root" ? "en" : lang];
+  const min = minHeight ? ` style="min-height:${minHeight}"` : "";
+  return `<section class="hero"${min}>
+    <picture class="hero-media">
+      <source type="image/avif" srcset="${imageSrcset(lang, image, "avif")}" sizes="100vw">
+      <source type="image/webp" srcset="${imageSrcset(lang, image, "webp")}" sizes="100vw">
+      <img src="${asset(lang, image)}" srcset="${imageSrcset(lang, image, "webp")}" sizes="100vw" width="1600" height="1000" loading="eager" decoding="async" fetchpriority="high" alt="">
+    </picture>
+    <div class="container hero-content"><span class="eyebrow">${esc(c.heroEyebrow)}</span><h1>${esc(title)}</h1><p class="lead">${esc(text)}</p><div class="actions"><a class="btn primary" href="${quoteHref(lang, { source: "hero" })}">${esc(c.ctaQuote)}</a><a class="btn whatsapp" data-wa data-wa-location="hero" href="#">${esc(c.ctaWhatsApp)}</a></div><p class="help" style="margin-top:12px">${esc(c.responseTime)}</p>${extra}</div>
+  </section>`;
 }
 
 function pageHref(lang, file) {
@@ -452,8 +531,17 @@ function canonical(lang, file) {
   return `${SITE}/${folder}/${file}`;
 }
 
-function rootAsset(file) {
-  return file === "index.html" ? file : file;
+function withParams(href, params = {}) {
+  const query = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== undefined && value !== null && value !== "") query.set(key, value);
+  }
+  const qs = query.toString();
+  return qs ? `${href}?${qs}` : href;
+}
+
+function quoteHref(lang, params = {}) {
+  return withParams(pageHref(lang, "quote.html"), params);
 }
 
 function metaAlternates(file) {
@@ -530,12 +618,13 @@ function head({ lang, file, title, description, image = images.hero, noindex = f
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(description)}">
   <meta property="og:url" content="${can}">
-  <meta property="og:image" content="${SITE}/${image}">
+  <meta property="og:image" content="${SITE}/${image.replaceAll(" ", "%20")}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${esc(description)}">
-  <meta name="twitter:image" content="${SITE}/${image}">
-  <link rel="stylesheet" href="${asset(lang, "assets/style.css")}">
+  <meta name="twitter:image" content="${SITE}/${image.replaceAll(" ", "%20")}">
+  <link rel="icon" href="${asset(lang, "assets/favicon.svg")}" type="image/svg+xml">
+  <link rel="stylesheet" href="${versionedAsset(lang, "assets/style.css")}">
   <script type="application/ld+json">${schema || seoJson(lang, "TaxiService", title, description)}</script>
 </head>`;
 }
@@ -556,7 +645,7 @@ function header(lang, active, file) {
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="container nav">
-    <a class="brand" href="${pageHref(lang, "index.html")}" aria-label="${esc(COMPANY)}">
+    <a class="brand" href="${pageHref(lang, "index.html")}">
       <span class="brand-mark"><img src="${asset(lang, images.logo)}" width="46" height="46" alt=""></span>
       <span><span class="brand-name">${esc(COMPANY)}</span><span class="brand-meta">${esc(c.brandMeta)}</span></span>
     </a>
@@ -568,10 +657,10 @@ function header(lang, active, file) {
 
 function footer(lang) {
   const c = copy[lang === "root" ? "en" : lang];
-  return `<div class="whatsapp-float"><a data-wa href="#">WhatsApp - ${PHONE}</a></div>
+  return `<div class="whatsapp-float"><a data-wa data-wa-location="float" href="#">WhatsApp - ${PHONE}</a></div>
 <div class="mobile-cta">
-  <a class="btn whatsapp" data-wa href="#">WhatsApp</a>
-  <a class="btn primary" href="${pageHref(lang, "quote.html")}">${esc(c.ctaQuote)}</a>
+  <a class="btn whatsapp" data-wa data-wa-location="mobile_bar" href="#">WhatsApp</a>
+  <a class="btn primary" href="${quoteHref(lang, { source: "mobile_bar" })}">${esc(c.ctaQuote)}</a>
 </div>
 <footer class="footer">
   <div class="container footer-grid">
@@ -580,8 +669,7 @@ function footer(lang) {
     <div><strong>${PHONE}</strong><p><a href="mailto:${EMAIL}">${EMAIL}</a></p></div>
   </div>
 </footer>
-<script src="${asset(lang, "assets/data.js")}" defer></script>
-<script src="${asset(lang, "assets/app.js")}" defer></script>
+<script src="${versionedAsset(lang, "assets/app.js")}" defer></script>
 </body>
 </html>`;
 }
@@ -593,28 +681,55 @@ function trust(lang) {
   </section>`;
 }
 
+function proofBlock(lang) {
+  const c = copy[lang === "root" ? "en" : lang];
+  return `<section class="section">
+    <div class="container proof-grid">
+      <article class="proof-panel"><strong>${esc(c.sections.proofTitle)}</strong><blockquote>${esc(c.sections.proofQuote)}</blockquote></article>
+      <article class="proof-panel"><h2>${esc(c.sections.proofTitle)}</h2><p>${esc(c.sections.proofText)}</p><p><strong style="text-transform:none; letter-spacing:0">${esc(c.responseTime)}</strong></p></article>
+    </div>
+  </section>`;
+}
+
+function serviceTarget(index) {
+  return [
+    { details: "airport-transfer-prague.html", quote: { service: "airport-pickup", route: "airport" } },
+    { details: "airport-transfer-prague.html", quote: { service: "airport-dropoff", route: "airport", pickup: "Prague hotel / address", dropoff: "Prague Airport (PRG)" } },
+    { details: "private-chauffeur-prague.html", quote: { service: "chauffeur", route: "chauffeur" } },
+    { details: "europe-transfers.html", quote: { service: "europe-transfer", route: "europe" } },
+    { details: "programs.html", quote: { service: "daily-tour" } },
+    { details: "programs.html", quote: { service: "program-event" } }
+  ][index];
+}
+
 function serviceCards(lang) {
   const c = copy[lang === "root" ? "en" : lang];
-  return services[lang === "root" ? "en" : lang].map(([title, text, img]) => `
+  return services[lang === "root" ? "en" : lang].map(([title, text, img], index) => {
+    const target = serviceTarget(index);
+    const detailsText = (lang === "root" || lang === "en") ? `${title} details` : `${title} - ${c.learnMore}`;
+    return `
     <article class="card span-4">
-      <div class="media"><img src="${asset(lang, img)}" width="800" height="500" loading="lazy" decoding="async" alt="${esc(title)}"></div>
-      <div class="card-body"><h3>${esc(title)}</h3><p>${esc(text)}</p><div class="actions"><a class="btn" href="${pageHref(lang, "services.html")}">${esc(c.learnMore)}</a></div></div>
-    </article>`).join("");
+      <div class="media">${picture(lang, img, title, { width: 800, height: 500 })}</div>
+      <div class="card-body"><h2>${esc(title)}</h2><p>${esc(text)}</p><div class="actions"><a class="btn" data-track="service_details" data-track-key="${esc(target.quote.service)}" href="${pageHref(lang, target.details)}">${esc(detailsText)}</a><a class="btn primary" data-track="service_quote" data-track-key="${esc(target.quote.service)}" href="${quoteHref(lang, { ...target.quote, source: "service_card" })}">${esc(c.ctaQuote)}</a></div></div>
+    </article>`;
+  }).join("");
 }
 
 function fleetCards(lang) {
   const c = copy[lang === "root" ? "en" : lang];
-  return fleet[lang === "root" ? "en" : lang].map(([name, seats, bags, best, amenity, img]) => `
+  const vehicleValues = ["Sedan", "Mercedes V-Class", "Luxury Minibus", "Executive Coach"];
+  return fleet[lang === "root" ? "en" : lang].map(([name, seats, bags, best, amenity, img], index) => `
     <article class="card span-6">
-      <div class="media"><img src="${asset(lang, img)}" width="900" height="560" loading="lazy" decoding="async" alt="${esc(name)}"></div>
+      <div class="media">${picture(lang, img, name, { width: 900, height: 560, sizes: "(max-width: 720px) 100vw, (max-width: 1020px) 50vw, 50vw" })}</div>
       <div class="card-body">
-        <h3>${esc(name)}</h3>
+        <h2>${esc(name)}</h2>
         <p>${esc(best)}</p>
         <div class="pill-list">
           <span class="pill">${esc(c.capacity)}: ${esc(seats)}</span>
           <span class="pill">${esc(c.luggage)}: ${esc(bags)}</span>
           <span class="pill">${esc(amenity)}</span>
         </div>
+        <div class="actions"><a class="btn primary" data-track="vehicle_click" data-track-key="${esc(vehicleValues[index])}" href="${quoteHref(lang, { vehicle: vehicleValues[index], source: "fleet_card" })}">${esc(c.ctaQuote)}</a></div>
       </div>
     </article>`).join("");
 }
@@ -623,7 +738,7 @@ function routeCards(lang) {
   const c = copy[lang === "root" ? "en" : lang];
   return Object.entries(routeData).map(([file, route]) => {
     const [title, desc, routeLabel, time] = route[lang === "root" ? "en" : lang];
-    return `<a class="route-card" href="${pageHref(lang, file)}"><span>${esc(routeLabel)}</span><strong>${esc(title)}</strong><span>${esc(time)}</span></a>`;
+    return `<a class="route-card" data-track="route_click" data-track-key="${esc(route.key)}" href="${pageHref(lang, file)}"><span>${esc(routeLabel)}</span><strong>${esc(title)}</strong><span>${esc(time)}</span></a>`;
   }).join("");
 }
 
@@ -640,17 +755,7 @@ function homePage(lang = "en", rootCompat = false) {
   return `${head({ lang: l, file, title, description, schema: `${seoJson(l, "TaxiService", title, description)}\n  </script>\n  <script type="application/ld+json">${faqJson(l)}` })}
 ${header(l, "home", file)}
 <main id="main">
-  <section class="hero" style="--hero-image:url('${cssAsset(images.hero)}')">
-    <div class="container hero-content">
-      <span class="eyebrow">${esc(c.heroEyebrow)}</span>
-      <h1>${esc(c.homeTitle)}</h1>
-      <p class="lead">${esc(c.homeLead)}</p>
-      <div class="actions">
-        <a class="btn primary" href="${pageHref(l, "quote.html")}">${esc(c.ctaQuote)}</a>
-        <a class="btn whatsapp" data-wa href="#">${esc(c.ctaWhatsApp)}</a>
-      </div>
-    </div>
-  </section>
+  ${heroSection(l, c.homeTitle, c.homeLead, images.hero)}
   ${trust(l)}
   <section class="section">
     <div class="container">
@@ -684,6 +789,7 @@ ${header(l, "home", file)}
       ${faqBlock(l)}
     </div>
   </section>
+  ${proofBlock(l)}
   ${finalCta(l)}
 </main>
 ${footer(l)}`;
@@ -691,7 +797,7 @@ ${footer(l)}`;
 
 function finalCta(lang) {
   const c = copy[lang === "root" ? "en" : lang];
-  return `<section class="section feature-band"><div class="container"><div class="section-head"><div><h2>${esc(c.sections.finalTitle)}</h2><p>${esc(c.sections.finalText)}</p></div><div class="actions"><a class="btn primary" href="${pageHref(lang, "quote.html")}">${esc(c.ctaQuote)}</a><a class="btn whatsapp" data-wa href="#">${esc(c.ctaWhatsApp)}</a></div></div></div></section>`;
+  return `<section class="section feature-band"><div class="container"><div class="section-head"><div><h2>${esc(c.sections.finalTitle)}</h2><p>${esc(c.sections.finalText)} ${esc(c.responseTime)}</p></div><div class="actions"><a class="btn primary" href="${quoteHref(lang, { source: "final_cta" })}">${esc(c.ctaQuote)}</a><a class="btn whatsapp" data-wa data-wa-location="final_cta" href="#">${esc(c.ctaWhatsApp)}</a></div></div></div></section>`;
 }
 
 function simpleListingPage(lang, kind, rootCompat = false) {
@@ -714,6 +820,7 @@ ${header(l, kind, file)}
   ${trust(l)}
   <section class="section"><div class="container"><div class="grid">${cards}</div></div></section>
   ${extra}
+  ${isPrograms ? proofBlock(l) : ""}
   ${finalCta(l)}
 </main>
 ${footer(l)}`;
@@ -721,16 +828,15 @@ ${footer(l)}`;
 
 function programCards(lang) {
   const c = copy[lang === "root" ? "en" : lang];
-  return programs[lang === "root" ? "en" : lang].map(([name, text, img]) => `
+  return programs[lang === "root" ? "en" : lang].map(([key, name, text, duration, season, ideal, vehicle, img]) => `
     <article class="card span-4">
-      <div class="media"><img src="${asset(lang, img)}" width="900" height="600" loading="lazy" decoding="async" alt="${esc(name)}"></div>
-      <div class="card-body"><h3>${esc(name)}</h3><p>${esc(text)}</p><div class="actions"><a class="btn" href="${pageHref(lang, "quote.html")}">${esc(c.routeCta)}</a></div></div>
+      <div class="media">${picture(lang, img, name, { width: 900, height: 600 })}</div>
+      <div class="card-body"><h2>${esc(name)}</h2><p>${esc(text)}</p><div class="pill-list"><span class="pill">${esc(duration)}</span><span class="pill">${esc(season)}</span><span class="pill">${esc(ideal)}</span><span class="pill">${esc(vehicle)}</span></div><div class="actions"><a class="btn primary" data-track="program_quote" data-track-key="${esc(key)}" href="${quoteHref(lang, { program: key, service: "program", source: "program_card" })}">${esc(c.routeCta)}</a></div></div>
     </article>`).join("");
 }
 
 function subHero(lang, title, text, image) {
-  const c = copy[lang === "root" ? "en" : lang];
-  return `<section class="hero" style="--hero-image:url('${cssAsset(image)}'); min-height:520px"><div class="container hero-content"><span class="eyebrow">${esc(c.heroEyebrow)}</span><h1>${esc(title)}</h1><p class="lead">${esc(text)}</p><div class="actions"><a class="btn primary" href="${pageHref(lang, "quote.html")}">${esc(c.ctaQuote)}</a><a class="btn whatsapp" data-wa href="#">${esc(c.ctaWhatsApp)}</a></div></div></section>`;
+  return heroSection(lang, title, text, image, { minHeight: "520px" });
 }
 
 function fleetTable(lang) {
@@ -758,7 +864,7 @@ ${header(l, "services", file)}
     <div class="container">
       <div class="grid">
         <article class="card span-7"><div class="card-body"><h2>${esc(routeLabel)}</h2><p>${esc(desc)}</p><div class="pill-list"><span class="pill">${esc(time)}</span><span class="pill">${esc(c.sections.fleetText)}</span><span class="pill">${esc(c.trust[4][0])}</span></div></div></article>
-        <article class="card span-5"><div class="card-body"><h2>${esc(c.sections.finalTitle)}</h2><p>${esc(c.sections.finalText)}</p><div class="actions"><a class="btn primary" href="${pageHref(l, "quote.html")}">${esc(c.routeCta)}</a><a class="btn whatsapp" data-wa href="#">${esc(c.ctaWhatsApp)}</a></div></div></article>
+        <article class="card span-5"><div class="card-body"><h2>${esc(c.sections.finalTitle)}</h2><p>${esc(c.sections.finalText)} ${esc(c.responseTime)}</p><div class="actions"><a class="btn primary" data-track="route_quote" data-track-key="${esc(route.key)}" href="${quoteHref(l, { route: route.key, source: "route_page" })}">${esc(c.routeCta)}</a><a class="btn whatsapp" data-wa data-wa-location="route_page" href="#">${esc(c.ctaWhatsApp)}</a></div></div></article>
       </div>
     </div>
   </section>
@@ -775,15 +881,32 @@ function quotePage(lang, rootCompat = false) {
   const file = "quote.html";
   const description = q.lead;
   const thankyou = "thankyou.html";
+  const next = canonical(l, thankyou);
   return `${head({ lang: l, file, title: `${q.title} | ${COMPANY}`, description, schema: seoJson(l, "TaxiService", q.title, description) })}
 ${header(l, "quote", file)}
 <main id="main">
   ${subHero(l, q.title, q.lead, images.hero)}
+  <section class="section tight">
+    <div class="container">
+      <div class="section-head"><h2>${esc(q.presetsTitle)}</h2><p>${esc(q.presetsText)}</p></div>
+      <div class="route-grid">${routeQuoteCards(l)}</div>
+    </div>
+  </section>
   <section class="section">
     <div class="container form-shell">
       <form class="form" method="POST" action="https://formsubmit.co/${EMAIL}" data-quote-form data-thankyou="${thankyou}">
         <input type="hidden" name="_subject" value="VIPCT Quote Request">
         <input type="hidden" name="_captcha" value="true">
+        <input type="hidden" name="_next" value="${next}">
+        <input type="hidden" id="lead_language" name="lead_language" value="${languages[lang].html}">
+        <input type="hidden" id="lead_page" name="lead_page" value="">
+        <input type="hidden" id="lead_url" name="lead_url" value="">
+        <input type="hidden" id="lead_source_page" name="lead_source_page" value="">
+        <input type="hidden" id="lead_utm" name="lead_utm" value="">
+        <input type="hidden" id="lead_route" name="lead_route" value="">
+        <input type="hidden" id="lead_service" name="lead_service" value="">
+        <input type="hidden" id="lead_program" name="lead_program" value="">
+        <input type="hidden" id="lead_payload" name="lead_payload" value="">
         <section class="form-section">
           <h2>${esc(q.trip)}</h2>
           <div class="field-grid">
@@ -806,6 +929,13 @@ ${header(l, "quote", file)}
           </div>
         </section>
         <section class="form-section">
+          <h2>${esc(c.trust[2][0])}</h2>
+          <div class="field-grid">
+            ${textField("flight_number", q.flightNumber, "OK 123 / FR 3524", false)}
+            ${numberField("child_seats", q.childSeats, false, 0, 6)}
+          </div>
+        </section>
+        <section class="form-section">
           <h2>${esc(q.contact)}</h2>
           <div class="field-grid">
             ${textField("name", q.name, "Full name", true)}
@@ -823,6 +953,15 @@ ${header(l, "quote", file)}
         <h2>${esc(c.sections.finalTitle)}</h2>
         <p>${esc(q.response)}</p>
         <div class="summary-list">${c.trust.slice(0, 5).map(([a, b]) => `<div class="summary-row"><span>${esc(a)}</span><span>${esc(b)}</span></div>`).join("")}</div>
+        <div class="live-quote">
+          <h2>${esc(q.liveTitle)}</h2>
+          <div class="summary-list">
+            <div class="summary-row"><span>${esc(q.liveRoute)}</span><span><span data-live-summary="pickup">-</span> -> <span data-live-summary="dropoff">-</span></span></div>
+            <div class="summary-row"><span>${esc(q.liveTiming)}</span><span><span data-live-summary="pickup_date">-</span> <span data-live-summary="pickup_time">-</span></span></div>
+            <div class="summary-row"><span>${esc(q.liveVehicle)}</span><span data-live-summary="vehicle">-</span></div>
+            <div class="summary-row"><span>${esc(q.liveContact)}</span><span data-live-summary="name">-</span></div>
+          </div>
+        </div>
       </aside>
     </div>
   </section>
@@ -833,7 +972,14 @@ ${header(l, "quote", file)}
     <div class="modal-body"><pre class="preview" id="waPreview"></pre><div class="actions" style="margin-top:16px"><button class="btn" type="button" data-wa-close>${esc(q.cancel)}</button><button class="btn whatsapp" type="button" id="waSend">${esc(q.sendWa)}</button></div></div>
   </div>
 </div>
-${footer(l).replace("</body>", `<script>window.VIPCT_TEXT=${JSON.stringify({ ready: q.title })}</script>\n<script src="${asset(l, "assets/quote.js")}" defer></script>\n</body>`)}`;
+${footer(l).replace("</body>", `<script>window.VIPCT_TEXT=${JSON.stringify({ ready: q.title })}</script>\n<script src="${versionedAsset(l, "assets/quote.js")}" defer></script>\n</body>`)}`;
+}
+
+function routeQuoteCards(lang) {
+  return Object.entries(routeData).map(([file, route]) => {
+    const [title, desc, routeLabel, time] = route[lang === "root" ? "en" : lang];
+    return `<a class="route-card" data-track="quote_preset" data-track-key="${esc(route.key)}" href="${quoteHref(lang, { route: route.key, source: "quote_preset" })}"><span>${esc(routeLabel)}</span><strong>${esc(title)}</strong><span>${esc(time)}</span></a>`;
+  }).join("");
 }
 
 function selectField(id, label, options, required = true, cls = "") {
@@ -848,8 +994,8 @@ function telField(id, label, placeholder) {
 function emailField(id, label, placeholder) {
   return `<div class="field"><label for="${id}">${esc(label)}</label><input id="${id}" name="${id}" type="email" placeholder="${esc(placeholder)}" required></div>`;
 }
-function numberField(id, label, required) {
-  return `<div class="field"><label for="${id}">${esc(label)}</label><input id="${id}" name="${id}" type="number" min="1" max="60" ${required ? "required" : ""}></div>`;
+function numberField(id, label, required, min = 1, max = 60) {
+  return `<div class="field"><label for="${id}">${esc(label)}</label><input id="${id}" name="${id}" type="number" min="${min}" max="${max}" ${required ? "required" : ""}></div>`;
 }
 function dateField(id, label, required) {
   return `<div class="field"><label for="${id}">${esc(label)}</label><input id="${id}" name="${id}" type="date" ${required ? "required" : ""}></div>`;
@@ -872,11 +1018,11 @@ ${header(l, "contact", file)}
   ${subHero(l, c.contactTitle, c.contactLead, images.hero)}
   <section class="section">
     <div class="container contact-grid">
-      <article class="contact-panel"><h2>${esc(c.ctaWhatsApp)}</h2><p>${esc(c.contactLead)}</p><div class="actions"><a class="btn whatsapp" data-wa href="#">WhatsApp</a><a class="btn primary" href="${pageHref(l, "quote.html")}">${esc(c.ctaQuote)}</a></div></article>
+      <article class="contact-panel"><h2>${esc(c.ctaWhatsApp)}</h2><p>${esc(c.contactLead)} ${esc(c.responseTime)}</p><div class="actions"><a class="btn whatsapp" data-wa data-wa-location="contact_panel" href="#">WhatsApp</a><a class="btn primary" href="${quoteHref(l, { source: "contact_panel" })}">${esc(c.ctaQuote)}</a></div></article>
       <article class="contact-panel"><dl><div><dt>${esc(COMPANY)}</dt><dd>${esc(ADDRESS)}</dd></div><div><dt>IČO / DIČ</dt><dd>${ICO} / ${VAT}</dd></div><div><dt>Phone / WhatsApp</dt><dd><a href="tel:+420775091730">${PHONE}</a></dd></div><div><dt>Email</dt><dd><a href="mailto:${EMAIL}">${EMAIL}</a></dd></div></dl></article>
     </div>
   </section>
-  <section class="section tight"><div class="container map-wrap"><iframe src="https://www.google.com/maps?q=Moulikova%202240/5,%20150%2000%20Praha&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="VIP Coach Transfers Prague map"></iframe></div></section>
+  <section class="section tight"><div class="container map-card"><h2>${esc(ADDRESS)}</h2><p>${esc(c.footerText)}</p><div class="actions"><a class="btn" data-track="map_open" href="${MAP_URL}" target="_blank" rel="noopener">${esc(c.mapOpen)}</a></div></div></section>
 </main>
 ${footer(l)}`;
 }
@@ -901,7 +1047,7 @@ ${header(l, "quote", file)}
     </div>
   </section>
 </main>
-${footer(l).replace("</body>", `<script src="${asset(l, "assets/thankyou.js")}" defer></script>\n</body>`)}`;
+${footer(l).replace("</body>", `<script src="${versionedAsset(l, "assets/thankyou.js")}" defer></script>\n</body>`)}`;
 }
 
 async function write(file, html) {
@@ -915,9 +1061,6 @@ function sitemapEntries() {
   const urls = [];
   for (const lang of Object.keys(languages)) {
     for (const file of files) urls.push(`${SITE}/${lang}/${file}`);
-  }
-  for (const file of ["index.html", "services.html", "fleet.html", "programs.html", "quote.html", "contact.html"]) {
-    urls.push(`${SITE}/${file}`);
   }
   return urls;
 }

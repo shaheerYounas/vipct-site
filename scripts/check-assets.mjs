@@ -23,7 +23,7 @@ function rel(file) {
 
 function resolveRef(fromFile, raw) {
   if (/^(https?:|mailto:|tel:|data:|#)/i.test(raw)) return null;
-  const clean = raw.split("#")[0].split("?")[0];
+  const clean = decodeURI(raw.split("#")[0].split("?")[0]);
   if (!clean) return null;
   if (clean.startsWith("/")) return clean.slice(1);
   const base = path.posix.dirname(rel(fromFile));
@@ -36,6 +36,7 @@ const existing = new Set(files.map(rel));
 const refFiles = files.filter((file) => /\.(html|css|js)$/i.test(file));
 const refs = [];
 const customPropertyIssues = [];
+const localAssetPattern = /\.(css|js|png|jpe?g|webp|avif|svg|ico|html)$/i;
 
 for (const file of refFiles) {
   const text = fs.readFileSync(file, "utf8");
@@ -50,8 +51,20 @@ for (const file of refFiles) {
     while ((match = re.exec(text))) {
       const resolved = resolveRef(file, match[1]);
       if (!resolved) continue;
-      if (/\.html$/i.test(resolved) || /\.(css|js|png|jpe?g|webp|svg|ico)$/i.test(resolved)) {
+      if (localAssetPattern.test(resolved)) {
         refs.push({ from: rel(file), raw: match[1], resolved });
+      }
+    }
+  }
+
+  const srcsetPattern = /\bsrcset=["']([^"']+)["']/g;
+  let srcsetMatch;
+  while ((srcsetMatch = srcsetPattern.exec(text))) {
+    for (const candidate of srcsetMatch[1].split(",")) {
+      const raw = candidate.trim().split(/\s+/)[0];
+      const resolved = resolveRef(file, raw);
+      if (resolved && localAssetPattern.test(resolved)) {
+        refs.push({ from: rel(file), raw, resolved });
       }
     }
   }
@@ -77,7 +90,7 @@ if (missing.length) {
   process.exitCode = 1;
 }
 
-const imageFiles = files.filter((file) => /\.(png|jpe?g|webp)$/i.test(file));
+const imageFiles = files.filter((file) => /\.(png|jpe?g|webp|avif)$/i.test(file));
 for (const image of imageFiles) {
   try {
     const stat = fs.statSync(image);

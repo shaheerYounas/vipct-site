@@ -17,12 +17,57 @@
   const returnDate = document.getElementById("return_date");
   const vehicle = document.getElementById("vehicle");
   const passengers = document.getElementById("passengers");
+  const liveSummary = document.querySelectorAll("[data-live-summary]");
 
   const fields = [
     "trip_type", "pickup_date", "pickup_time", "return_date", "return_time",
     "pickup", "dropoff", "passengers", "luggage", "vehicle",
-    "name", "phone", "email", "notes"
+    "flight_number", "child_seats", "name", "phone", "email", "notes"
   ];
+
+  const routePresets = {
+    airport: {
+      pickup: { en: "Prague Airport (PRG)", cs: "Letiste Praha (PRG)", ar: "مطار براغ (PRG)" },
+      dropoff: { en: "Prague city center / hotel", cs: "Centrum Prahy / hotel", ar: "وسط براغ / الفندق" }
+    },
+    chauffeur: {
+      pickup: { en: "Prague", cs: "Praha", ar: "براغ" },
+      dropoff: { en: "Hourly or full-day chauffeur service", cs: "Hodinova nebo celodenni sluzba ridice", ar: "خدمة سائق بالساعة أو ليوم كامل" }
+    },
+    europe: {
+      pickup: { en: "Prague", cs: "Praha", ar: "براغ" },
+      dropoff: { en: "Europe transfer destination", cs: "Cil transferu v Evrope", ar: "وجهة النقل داخل أوروبا" }
+    },
+    vienna: {
+      pickup: { en: "Prague", cs: "Praha", ar: "براغ" },
+      dropoff: { en: "Vienna", cs: "Viden", ar: "فيينا" }
+    },
+    dresden: {
+      pickup: { en: "Prague", cs: "Praha", ar: "براغ" },
+      dropoff: { en: "Dresden", cs: "Drazdany", ar: "دريسدن" }
+    },
+    cesky: {
+      pickup: { en: "Prague", cs: "Praha", ar: "براغ" },
+      dropoff: { en: "Cesky Krumlov", cs: "Cesky Krumlov", ar: "تشيسكي كروملوف" }
+    }
+  };
+
+  const programPresets = {
+    cesky: "Cesky Krumlov",
+    karlovy: "Karlovy Vary",
+    dresden: "Dresden",
+    spindl: "Spindleruv Mlyn",
+    dolni: "Dolni Morava",
+    adventure: "Adventure Prague"
+  };
+
+  function track(eventName, detail) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: eventName, ...detail });
+    if (typeof window.plausible === "function") {
+      window.plausible(eventName, { props: detail });
+    }
+  }
 
   function today() {
     const d = new Date();
@@ -64,8 +109,9 @@
     else vehicle.value = "Executive Coach";
   }
 
-  function requiredComplete() {
-    const required = ["trip_type", "pickup_date", "pickup_time", "pickup", "dropoff", "passengers", "name", "phone", "email"];
+  function requiredComplete(channel) {
+    const required = ["trip_type", "pickup_date", "pickup_time", "pickup", "dropoff", "passengers", "name", "phone"];
+    if (channel !== "whatsapp") required.push("email");
     if (tripType.value === "roundtrip") required.push("return_date", "return_time");
     return required.every((id) => get(id));
   }
@@ -77,14 +123,86 @@
     return parts.length ? parts.join(" | ") : "-";
   }
 
+  function selectedParam(name) {
+    return new URLSearchParams(window.location.search).get(name) || "";
+  }
+
+  function setHidden(id, value) {
+    const field = document.getElementById(id);
+    if (field) field.value = value || "";
+  }
+
+  function localText(value) {
+    if (!value) return "";
+    if (typeof value === "string") return value;
+    return value[lang] || value.en || "";
+  }
+
+  function setIfEmpty(id, value) {
+    const el = document.getElementById(id);
+    if (el && value && !el.value) el.value = value;
+  }
+
+  function applyPrefill() {
+    const params = new URLSearchParams(window.location.search);
+    const route = params.get("route");
+    const program = params.get("program");
+
+    if (route && routePresets[route]) {
+      setIfEmpty("pickup", localText(routePresets[route].pickup));
+      setIfEmpty("dropoff", localText(routePresets[route].dropoff));
+    }
+
+    if (program && programPresets[program]) {
+      setIfEmpty("pickup", lang === "ar" ? "براغ" : lang === "cs" ? "Praha" : "Prague");
+      setIfEmpty("dropoff", programPresets[program]);
+      setIfEmpty("notes", `Program request: ${programPresets[program]}`);
+    }
+
+    ["pickup", "dropoff", "pickup_date", "pickup_time", "return_date", "return_time", "passengers", "luggage", "vehicle", "flight_number", "child_seats", "notes"].forEach((id) => {
+      setIfEmpty(id, params.get(id));
+    });
+
+    if (params.get("trip_type") === "roundtrip") tripType.value = "roundtrip";
+    if (params.get("vehicle")) {
+      vehicle.dataset.touched = "true";
+      vehicle.value = params.get("vehicle");
+    }
+    if (params.toString()) {
+      track("quote_prefill", {
+        route: route || "-",
+        service: params.get("service") || "-",
+        program: program || "-",
+        vehicle: params.get("vehicle") || "-"
+      });
+    }
+  }
+
   function collectBooking() {
     const booking = {};
     fields.forEach((id) => { booking[id] = get(id); });
     booking.language = lang;
     booking.page = window.location.pathname;
+    booking.url = window.location.href;
     booking.utm = utmLine();
+    booking.route = selectedParam("route");
+    booking.service = selectedParam("service");
+    booking.program = selectedParam("program");
+    booking.source_page = selectedParam("source") || document.referrer || window.location.pathname;
     booking.trip_label = tripType.options[tripType.selectedIndex]?.textContent || booking.trip_type;
     return booking;
+  }
+
+  function syncHiddenFields(booking) {
+    setHidden("lead_language", booking.language);
+    setHidden("lead_page", booking.page);
+    setHidden("lead_url", booking.url);
+    setHidden("lead_source_page", booking.source_page);
+    setHidden("lead_utm", booking.utm);
+    setHidden("lead_route", booking.route);
+    setHidden("lead_service", booking.service);
+    setHidden("lead_program", booking.program);
+    setHidden("lead_payload", JSON.stringify(booking));
   }
 
   function buildMessage(booking) {
@@ -96,6 +214,9 @@
       `UTM: ${booking.utm}`,
       "",
       `Trip type: ${label(booking.trip_label)}`,
+      `Route key: ${label(booking.route)}`,
+      `Service key: ${label(booking.service)}`,
+      `Program key: ${label(booking.program)}`,
       `Pickup date: ${label(booking.pickup_date)}`,
       `Pickup time: ${label(booking.pickup_time)}`,
       `Pickup: ${label(booking.pickup)}`,
@@ -106,6 +227,8 @@
       `Passengers: ${label(booking.passengers)}`,
       `Luggage: ${label(booking.luggage)}`,
       `Vehicle: ${label(booking.vehicle)}`,
+      `Flight number: ${label(booking.flight_number)}`,
+      `Child seats: ${label(booking.child_seats)}`,
       "",
       `Name: ${label(booking.name)}`,
       `Phone: ${label(booking.phone)}`,
@@ -116,7 +239,16 @@
   }
 
   function updateButton() {
-    whatsappBtn.disabled = !requiredComplete();
+    whatsappBtn.disabled = !requiredComplete("whatsapp");
+  }
+
+  function updateLiveSummary() {
+    const booking = collectBooking();
+    syncHiddenFields(booking);
+    liveSummary.forEach((node) => {
+      const key = node.dataset.liveSummary;
+      node.textContent = booking[key] || "-";
+    });
   }
 
   function openModal(message) {
@@ -132,6 +264,7 @@
   form.addEventListener("input", () => {
     recommendVehicle();
     updateButton();
+    updateLiveSummary();
   });
   form.addEventListener("change", (event) => {
     if (event.target === vehicle) vehicle.dataset.touched = "true";
@@ -139,14 +272,17 @@
     syncReturnMin();
     recommendVehicle();
     updateButton();
+    updateLiveSummary();
   });
 
   whatsappBtn.addEventListener("click", () => {
-    if (!requiredComplete()) return;
+    if (!requiredComplete("whatsapp")) return;
     const booking = collectBooking();
+    syncHiddenFields(booking);
     const message = buildMessage(booking);
     sessionStorage.setItem("vipct_booking", JSON.stringify(booking));
     sessionStorage.setItem("vipct_wa_message", message);
+    track("quote_submit", { channel: "whatsapp_preview", route: booking.route || "-", service: booking.service || "-", program: booking.program || "-" });
     openModal(message);
   });
 
@@ -154,9 +290,17 @@
     const message = sessionStorage.getItem("vipct_wa_message") || "";
     sendButton.disabled = true;
     window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
+    track("whatsapp_send", { page: window.location.pathname });
     window.setTimeout(() => {
       window.location.href = thankYouUrl;
     }, 600);
+  });
+
+  form.addEventListener("submit", () => {
+    const booking = collectBooking();
+    syncHiddenFields(booking);
+    sessionStorage.setItem("vipct_booking", JSON.stringify(booking));
+    track("quote_submit", { channel: "email", route: booking.route || "-", service: booking.service || "-", program: booking.program || "-" });
   });
 
   closeButtons.forEach((button) => button.addEventListener("click", closeModal));
@@ -166,9 +310,12 @@
 
   pickupDate.min = today();
   returnDate.min = today();
+  applyPrefill();
   setReturnState();
   syncReturnMin();
+  recommendVehicle();
   updateButton();
+  updateLiveSummary();
 
   if (text.ready) {
     form.setAttribute("aria-label", text.ready);
