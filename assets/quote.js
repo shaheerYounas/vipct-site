@@ -4,6 +4,7 @@
   if (!form) return;
 
   const text = window.VIPCT_TEXT || {};
+  const publicConfig = window.VIPCT_CONFIG || {};
   const lang = document.documentElement.lang || "en";
   const thankYouUrl = form.dataset.thankyou || "thankyou.html";
   const whatsappBtn = document.getElementById("whatsappBtn");
@@ -18,6 +19,8 @@
   const vehicle = document.getElementById("vehicle");
   const passengers = document.getElementById("passengers");
   const liveSummary = document.querySelectorAll("[data-live-summary]");
+  let fallbackSubmission = false;
+  let submitInFlight = false;
 
   const fields = [
     "trip_type", "pickup_date", "pickup_time", "return_date", "return_time",
@@ -205,6 +208,45 @@
     setHidden("lead_payload", JSON.stringify(booking));
   }
 
+  function bookingRpcConfig() {
+    const supabase = publicConfig.supabase;
+    if (!supabase || !supabase.url || !supabase.anonKey) return null;
+    return {
+      url: String(supabase.url).replace(/\/+$/, ""),
+      anonKey: supabase.anonKey,
+      bookingRpc: supabase.bookingRpc || "submit_booking_request"
+    };
+  }
+
+  async function submitViaSupabase(booking) {
+    const supabase = bookingRpcConfig();
+    if (!supabase) return null;
+
+    const response = await fetch(`${supabase.url}/rest/v1/rpc/${supabase.bookingRpc}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: supabase.anonKey,
+        Authorization: `Bearer ${supabase.anonKey}`
+      },
+      body: JSON.stringify({ payload: booking })
+    });
+
+    const contentType = response.headers.get("content-type") || "";
+    const body = contentType.includes("application/json")
+      ? await response.json().catch(() => null)
+      : await response.text().catch(() => "");
+
+    if (!response.ok) {
+      const detail = typeof body === "string"
+        ? body
+        : body?.message || body?.error || `Supabase RPC ${supabase.bookingRpc} failed with ${response.status}`;
+      throw new Error(detail);
+    }
+
+    return body;
+  }
+
   function buildMessage(booking) {
     const lines = [
       "VIP Coach Transfers Booking Request",
@@ -296,11 +338,50 @@
     }, 600);
   });
 
-  form.addEventListener("submit", () => {
+  form.addEventListener("submit", async (event) => {
+    if (fallbackSubmission) return;
+
     const booking = collectBooking();
     syncHiddenFields(booking);
     sessionStorage.setItem("vipct_booking", JSON.stringify(booking));
-    track("quote_submit", { channel: "email", route: booking.route || "-", service: booking.service || "-", program: booking.program || "-" });
+    sessionStorage.removeItem("vipct_booking_receipt");
+
+    if (get("company_website")) {
+      event.preventDefault();
+      window.location.href = thankYouUrl;
+      return;
+    }
+
+    const supabase = bookingRpcConfig();
+    if (!supabase) {
+      track("quote_submit", { channel: "email", route: booking.route || "-", service: booking.service || "-", program: booking.program || "-" });
+      return;
+    }
+
+    if (submitInFlight) {
+      event.preventDefault();
+      return;
+    }
+
+    event.preventDefault();
+    submitInFlight = true;
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    if (submitButton) submitButton.disabled = true;
+
+    try {
+      const receipt = await submitViaSupabase(booking);
+      sessionStorage.setItem("vipct_booking_receipt", JSON.stringify(receipt || {}));
+      track("quote_submit", { channel: "supabase", route: booking.route || "-", service: booking.service || "-", program: booking.program || "-" });
+      window.location.href = thankYouUrl;
+    } catch (error) {
+      console.warn("Supabase booking submission failed, falling back to the email form.", error);
+      track("quote_submit", { channel: "email_fallback", route: booking.route || "-", service: booking.service || "-", program: booking.program || "-" });
+      fallbackSubmission = true;
+      submitInFlight = false;
+      if (submitButton) submitButton.disabled = false;
+      form.submit();
+    }
   });
 
   closeButtons.forEach((button) => button.addEventListener("click", closeModal));

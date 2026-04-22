@@ -55,6 +55,23 @@ Useful public paths during local review:
 - `/cs/quote`
 - `/ar/programs`
 
+## GitHub Pages
+
+The generated public site now targets:
+
+```text
+https://shaheeryounas.github.io/vipct-site/index.html
+```
+
+The deploy workflow lives in `.github/workflows/deploy-pages.yml` and publishes only the static artifact: root `.html` files, `assets`, the localized `en` / `cs` / `ar` folders, `robots.txt`, `sitemap.xml`, and `.nojekyll`.
+
+Add these repository variables before enabling the Pages workflow:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+This GitHub Pages deployment covers the public static site. The full server-backed Next.js admin and API routes still need a server-capable host for complete operations mode.
+
 ## Environment
 
 Copy `.env.example` to `.env.local` and fill:
@@ -66,6 +83,12 @@ Copy `.env.example` to `.env.local` and fill:
 - `RESEND_API_KEY`
 - `ADMIN_EMAILS`
 - `REVALIDATE_SECRET`
+
+In this workspace, the root-level `.env_copy.local` file is the source of truth for the app env. Sync it into `vipct-site/.env.local` with:
+
+```bash
+npm run env:sync
+```
 
 Without Supabase env vars, public pages use local seed data and booking submissions return a local `received` response. With Supabase configured, booking requests are stored in Postgres and notifications are sent through Resend.
 
@@ -82,7 +105,7 @@ When you add a new admin email:
 
 ## Supabase
 
-Apply the schema in `supabase/migrations/0001_full_operations.sql`, then run `supabase/seed.sql`.
+Apply the schema in `supabase/migrations/0001_full_operations.sql`, `supabase/migrations/0002_public_booking_intake.sql`, and `supabase/migrations/0003_public_cms_access.sql`, then run `supabase/seed.sql`.
 
 For local Supabase after Docker Desktop is running:
 
@@ -96,6 +119,8 @@ For a linked remote Supabase project:
 ```bash
 npm run db:push
 ```
+
+The static quote page uses the `submit_booking_request(jsonb)` RPC from `0002_public_booking_intake.sql`. The public CMS/browser grants in `0003_public_cms_access.sql` expose only published CMS rows to the anon role. Once those migrations are live on the hosted project, the GitHub Pages build can read published CMS data and write bookings directly to Supabase with the anon key while still falling back to FormSubmit if the RPC is unavailable.
 
 To push the complete multilingual CMS seed from `lib/site-data.ts` into Supabase:
 
@@ -140,6 +165,9 @@ The current admin backend covers:
 - `npm run dev` starts Next.js locally.
 - `npm run build` creates a production build.
 - `npm run check` runs TypeScript and unit tests.
+- `npm run env:sync` copies `../.env_copy.local` into `./.env.local`.
+- `npm run generate` regenerates the static multilingual site.
+- `npm run pages:build` stages the GitHub Pages artifact into `.pages-dist`.
 - `npm run supabase:start` starts the local Supabase stack when Docker is running.
 - `npm run db:reset:local` applies migrations and `supabase/seed.sql` to local Supabase.
 - `npm run db:push` applies migrations to a linked remote Supabase project.

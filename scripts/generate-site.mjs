@@ -1,8 +1,15 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { config } from "dotenv";
+
+config({ path: ".env.local", quiet: true });
+config({ quiet: true });
 
 const root = process.cwd();
-const SITE = "https://vipct.org";
+const SITE = normalizeUrl(process.env.NEXT_PUBLIC_SITE_URL || "https://vipct.org");
+const PUBLIC_SUPABASE_URL = optionalUrl(process.env.NEXT_PUBLIC_SUPABASE_URL);
+const PUBLIC_SUPABASE_ANON_KEY = (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "").trim();
+const PUBLIC_SUPABASE_BOOKING_RPC = (process.env.NEXT_PUBLIC_SUPABASE_BOOKING_RPC || "submit_booking_request").trim();
 const WA_NUMBER = "420775091730";
 const EMAIL = "info@vipct.org";
 const PHONE = "+420 775 091 730";
@@ -13,6 +20,15 @@ const VAT = "CZ23693592";
 const ASSET_VERSION = "20260422";
 const MAP_URL = "https://www.google.com/maps/search/?api=1&query=Moulikova%202240%2F5%2C%20150%2000%20Praha";
 const RESPONSIVE_WIDTHS = [480, 768, 1024, 1400];
+
+function normalizeUrl(value) {
+  return String(value || "").trim().replace(/\/+$/, "");
+}
+
+function optionalUrl(value) {
+  const trimmed = String(value || "").trim();
+  return trimmed ? normalizeUrl(trimmed) : "";
+}
 
 const languages = {
   en: { label: "EN", html: "en", dir: "ltr", folder: "en" },
@@ -669,9 +685,25 @@ function footer(lang) {
     <div><strong>${PHONE}</strong><p><a href="mailto:${EMAIL}">${EMAIL}</a></p></div>
   </div>
 </footer>
+${publicRuntimeConfig()}
 <script src="${versionedAsset(lang, "assets/app.js")}" defer></script>
 </body>
 </html>`;
+}
+
+function publicRuntimeConfig() {
+  const config = {
+    siteUrl: SITE,
+    supabase: PUBLIC_SUPABASE_URL && PUBLIC_SUPABASE_ANON_KEY
+      ? {
+          url: PUBLIC_SUPABASE_URL,
+          anonKey: PUBLIC_SUPABASE_ANON_KEY,
+          bookingRpc: PUBLIC_SUPABASE_BOOKING_RPC
+        }
+      : null
+  };
+
+  return `<script>window.VIPCT_CONFIG=${JSON.stringify(config)}</script>`;
 }
 
 function trust(lang) {
@@ -907,6 +939,10 @@ ${header(l, "quote", file)}
         <input type="hidden" id="lead_service" name="lead_service" value="">
         <input type="hidden" id="lead_program" name="lead_program" value="">
         <input type="hidden" id="lead_payload" name="lead_payload" value="">
+        <div class="field" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none">
+          <label for="company_website">Website</label>
+          <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off">
+        </div>
         <section class="form-section">
           <h2>${esc(q.trip)}</h2>
           <div class="field-grid">
@@ -1085,6 +1121,7 @@ await write("contact.html", contactPage("en", true));
 await write("thankyou.html", thankyouPage("en", true));
 for (const file of Object.keys(routeData)) await write(file, routePage("en", file, true));
 
+await write(".nojekyll", "");
 await write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${sitemapEntries().map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}

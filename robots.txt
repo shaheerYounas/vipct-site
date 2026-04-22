@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://vipct.org/sitemap.xml
+Sitemap: https://shaheeryounas.github.io/vipct-site/sitemap.xml

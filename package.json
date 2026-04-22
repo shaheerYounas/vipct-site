@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start -H 127.0.0.1 -p 5500",
     "generate": "node scripts/generate-site.mjs",
+    "env:sync": "node scripts/sync-env-from-copy.mjs",
+    "pages:build": "node scripts/build-pages-artifact.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
     "admins:sync": "tsx scripts/sync-admins.ts",
     "supabase:start": "supabase start",
