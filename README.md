@@ -55,6 +55,16 @@ Useful public paths during local review:
 - `/cs/quote`
 - `/ar/programs`
 
+## Live URLs
+
+Current hosted endpoints:
+
+```text
+Public app + admin: https://vipct-site.vercel.app
+Public GitHub Pages mirror: https://shaheeryounas.github.io/vipct-site/index.html
+Admin login: https://vipct-site.vercel.app/admin/login
+```
+
 ## GitHub Pages
 
 The generated public site now targets:
@@ -70,7 +80,7 @@ Add these repository variables before enabling the Pages workflow:
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-This GitHub Pages deployment covers the public static site. The full server-backed Next.js admin and API routes still need a server-capable host for complete operations mode.
+This GitHub Pages deployment covers the public static brochure/quote site. The server-backed Next.js admin and API routes now run on Vercel.
 
 ## Environment
 
@@ -103,9 +113,14 @@ When you add a new admin email:
 3. Open `/admin/login` and request a magic link.
 4. For local Supabase, open Mailpit at `http://127.0.0.1:54324`.
 
+The current hosted allowlist includes:
+
+- `info@vipct.org`
+- `shaheeryounas24@gmail.com`
+
 ## Supabase
 
-Apply the schema in `supabase/migrations/0001_full_operations.sql`, `supabase/migrations/0002_public_booking_intake.sql`, and `supabase/migrations/0003_public_cms_access.sql`, then run `supabase/seed.sql`.
+Apply the schema in `supabase/migrations/0001_full_operations.sql`, `supabase/migrations/0002_public_booking_intake.sql`, `supabase/migrations/0003_public_cms_access.sql`, and `supabase/migrations/0004_fix_staff_rls.sql`, then run `supabase/seed.sql`.
 
 For local Supabase after Docker Desktop is running:
 
@@ -120,7 +135,7 @@ For a linked remote Supabase project:
 npm run db:push
 ```
 
-The static quote page uses the `submit_booking_request(jsonb)` RPC from `0002_public_booking_intake.sql`. The public CMS/browser grants in `0003_public_cms_access.sql` expose only published CMS rows to the anon role. Once those migrations are live on the hosted project, the GitHub Pages build can read published CMS data and write bookings directly to Supabase with the anon key while still falling back to FormSubmit if the RPC is unavailable.
+The static quote page uses the `submit_booking_request(jsonb)` RPC from `0002_public_booking_intake.sql`. The public CMS/browser grants in `0003_public_cms_access.sql` expose only published CMS rows to the anon role. `0004_fix_staff_rls.sql` updates the staff helper to a `security definer` function so public CMS reads do not recurse through RLS policies. Once those migrations are live on the hosted project, the GitHub Pages build can read published CMS data and write bookings directly to Supabase with the anon key while still falling back to FormSubmit if the RPC is unavailable.
 
 To push the complete multilingual CMS seed from `lib/site-data.ts` into Supabase:
 
