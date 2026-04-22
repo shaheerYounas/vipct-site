@@ -542,6 +542,16 @@ export const publicSlugs = [
   ...Object.keys(routeBase)
 ];
 
+const cleanSlugOverrides: Record<string, string> = {
+  "index.html": "",
+  "services.html": "services",
+  "fleet.html": "fleet",
+  "programs.html": "programs",
+  "quote.html": "quote",
+  "contact.html": "contact",
+  "thankyou.html": "thankyou"
+};
+
 export function getRouteBySlug(lang: Language, slug: string): RoutePageContent | undefined {
   return cmsData[lang].routes.find((route) => route.slug === slug);
 }
@@ -559,12 +569,64 @@ export function queryString(params: Record<string, string | undefined>): string 
   return serialized ? `?${serialized}` : "";
 }
 
+export function slugToPathSegment(slug: string): string {
+  if (Object.prototype.hasOwnProperty.call(cleanSlugOverrides, slug)) {
+    return cleanSlugOverrides[slug];
+  }
+  return slug.replace(/\.html$/, "");
+}
+
+export const publicSegments = publicSlugs.map((slug) => slugToPathSegment(slug)).filter(Boolean);
+
+export function resolvePublicSlug(value?: string | null): string | null {
+  const normalized = String(value || "")
+    .trim()
+    .replace(/^\/+|\/+$/g, "");
+  if (!normalized) return "index.html";
+  if (publicSlugs.includes(normalized)) return normalized;
+  return publicSlugs.find((slug) => slugToPathSegment(slug) === normalized) ?? null;
+}
+
 export function pageHref(lang: Language, slug: string): string {
-  return `/${lang}/${slug}`;
+  const segment = slugToPathSegment(slug);
+  return segment ? `/${lang}/${segment}` : `/${lang}`;
 }
 
 export function rootHref(slug: string): string {
+  const segment = slugToPathSegment(slug);
+  return segment ? `/${segment}` : "/";
+}
+
+export function canonicalHref(lang: Language, slug: string, rootCompat = false): string {
+  if (rootCompat || lang === "en") return rootHref(slug);
+  return pageHref(lang, slug);
+}
+
+export function legacyPageHref(lang: Language, slug: string): string {
+  return `/${lang}/${slug}`;
+}
+
+export function legacyRootHref(slug: string): string {
   return `/${slug}`;
+}
+
+export function legacyRedirectPath(pathname: string): string | null {
+  const normalizedPath = pathname === "/" ? "/" : pathname.replace(/\/+$/, "");
+  if (normalizedPath === "/index.html") return "/";
+
+  const localized = normalizedPath.match(/^\/(en|cs|ar)\/(.+)$/);
+  if (localized) {
+    const [, lang, rawSlug] = localized;
+    if (!rawSlug.endsWith(".html")) return null;
+    const slug = resolvePublicSlug(rawSlug);
+    return slug ? pageHref(lang as Language, slug) : null;
+  }
+
+  const root = normalizedPath.match(/^\/(.+)$/);
+  const rawSlug = root?.[1];
+  if (!rawSlug || !rawSlug.endsWith(".html")) return null;
+  const slug = resolvePublicSlug(rawSlug);
+  return slug ? rootHref(slug) : null;
 }
 
 export function cardFromFleet(item: FleetItem): CardContent {

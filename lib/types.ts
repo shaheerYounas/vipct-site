@@ -172,3 +172,18 @@ export interface AvailabilityConflict {
   conflictsWithId: string;
   resourceType: "driver" | "vehicle";
 }
+
+export interface AvailabilityBlock {
+  id: string;
+  resourceType: "driver" | "vehicle";
+  resourceId: string;
+  startsAt: string;
+  endsAt: string;
+  label?: string;
+}
+
+export interface AvailabilityBlockConflict {
+  assignmentId: string;
+  blockId: string;
+  resourceType: "driver" | "vehicle";
+}

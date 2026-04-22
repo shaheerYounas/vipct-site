@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type React from "react";
-import { company } from "@/lib/site-data";
+import { company, pageHref, rootHref } from "@/lib/site-data";
 import type { Language, PublicCmsData } from "@/lib/types";
 
 interface QuoteFormProps {
@@ -88,7 +88,7 @@ export function QuoteForm({ lang, data, rootCompat = false }: QuoteFormProps) {
 
     sessionStorage.setItem("vipct_booking", JSON.stringify(payload));
     setStatus("sent");
-    window.location.href = rootCompat ? "/thankyou.html" : `/${lang}/thankyou.html`;
+    window.location.href = rootCompat ? rootHref("thankyou.html") : pageHref(lang, "thankyou.html");
   }
 
   function prefillRoute(routeKey: string) {

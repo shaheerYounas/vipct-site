@@ -2,6 +2,18 @@
 
 This roadmap prioritizes production fixes first, then conversion improvements, then a scalable redesign. The site should become a premium, fast, multilingual lead-generation system for VIP airport transfers, chauffeur service, Europe routes, fleet bookings, and day programs.
 
+## Completed Since The Original Roadmap
+
+- Migrated the site to Next.js App Router
+- Added multilingual clean URLs with legacy `.html` redirects
+- Replaced the old form pipeline with `POST /api/booking-requests`
+- Added Supabase-backed bookings, customers, notes, events, assignments, pricing, fleet, drivers, and CMS tables
+- Shipped a staff admin with bookings, customers, schedule, pricing, fleet, drivers, CMS, and settings pages
+- Added sitemap and robots output
+- Added local admin provisioning with `npm run admins:sync`
+
+The roadmap below is still useful for future UX and content polish, but it no longer reflects the current implementation baseline.
+
 ## Phase 1: Production Fixes
 
 | Item | Where It Appears | Why It Matters | Severity | Exact Fix | Expected Impact |
@@ -62,4 +74,3 @@ This roadmap prioritizes production fixes first, then conversion improvements, t
 4. Redesign homepage and contact flow around trust plus fast booking.
 5. Add SEO metadata, structured data, sitemap, and route landing pages.
 6. Move to a static generator once the current production issues are stable.
-

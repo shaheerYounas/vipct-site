@@ -2,12 +2,18 @@
 
 Next.js App Router site and operations backend for VIP Coach Transfers.
 
-The app preserves the existing public URLs (`/en/*.html`, `/cs/*.html`, `/ar/*.html`, and root English `/*.html`) while adding:
+The app now serves clean public URLs such as `/services`, `/quote`, `/cs/quote`, and `/ar/programs`.
+Legacy `.html` URLs are still accepted and redirected so old links keep working.
+
+Current platform features:
 
 - Supabase-backed booking intake, staff admin, scheduling, pricing records and CMS tables.
 - `POST /api/booking-requests` for quote requests.
-- Staff admin under `/admin`.
+- Staff admin under `/admin` with dashboard, bookings, customers, schedule, pricing, CMS, fleet, drivers, and settings.
 - Resend email notifications with a generated WhatsApp follow-up link.
+- Customer records linked automatically from booking requests.
+- Booking filters, CSV export, internal notes, event timeline, and assignment conflict warnings.
+- Driver availability blocks, vehicle blocks, editable pricing rules, vehicle multipliers, and surcharges.
 - Local seeded CMS fallback so the public site builds before Supabase credentials are configured.
 
 ## Local Preview
@@ -27,7 +33,7 @@ npm run dev
 Open:
 
 ```text
-http://127.0.0.1:5500/en/index.html
+http://127.0.0.1:5500/
 ```
 
 If port `5500` is already in use, run Next directly on another port:
@@ -35,6 +41,19 @@ If port `5500` is already in use, run Next directly on another port:
 ```bash
 npx next dev -H 127.0.0.1 -p 5501
 ```
+
+Useful public paths during local review:
+
+- `/`
+- `/services`
+- `/fleet`
+- `/programs`
+- `/quote`
+- `/contact`
+- `/airport-transfer-prague`
+- `/prague-to-vienna-transfer`
+- `/cs/quote`
+- `/ar/programs`
 
 ## Environment
 
@@ -49,6 +68,17 @@ Copy `.env.example` to `.env.local` and fill:
 - `REVALIDATE_SECRET`
 
 Without Supabase env vars, public pages use local seed data and booking submissions return a local `received` response. With Supabase configured, booking requests are stored in Postgres and notifications are sent through Resend.
+
+## Admin Access
+
+`ADMIN_EMAILS` is the allowlist for staff magic-link login.
+
+When you add a new admin email:
+
+1. Update `ADMIN_EMAILS` in `.env.local`.
+2. Run `npm run admins:sync`.
+3. Open `/admin/login` and request a magic link.
+4. For local Supabase, open Mailpit at `http://127.0.0.1:54324`.
 
 ## Supabase
 
@@ -92,6 +122,19 @@ That reads `ADMIN_EMAILS` from `.env.local`, creates any missing Supabase Auth u
 npm run admins:sync -- --generate-links
 ```
 
+## CRM Surface
+
+The current admin backend covers:
+
+- `/admin/bookings`: filter by status/date/search, export CSV, inspect estimates, notes, events, and assignments
+- `/admin/customers`: customer list with open bookings, recent activity, and estimated value
+- `/admin/schedule`: assignment conflicts, driver availability blocks, and vehicle blocks
+- `/admin/pricing`: route rules, vehicle multipliers, and surcharges
+- `/admin/fleet`: vehicles plus maintenance/unavailable windows
+- `/admin/drivers`: driver records plus availability management
+- `/admin/cms`: publish CMS collections and trigger revalidation
+- `/admin/settings`: environment visibility for local ops checks
+
 ## Useful Scripts
 
 - `npm run dev` starts Next.js locally.
@@ -104,3 +147,13 @@ npm run admins:sync -- --generate-links
 - `npm test` runs Vitest.
 - `npm run seed:cms` upserts the complete CMS seed into Supabase.
 - `npm run optimize:images` keeps the legacy image optimization script available.
+
+## Verification Snapshot
+
+The current implementation has been verified with:
+
+- `npm run check:js`
+- `npm test`
+- `npm run build`
+- local Supabase migration/seed flow
+- live admin login flow against the local Supabase stack

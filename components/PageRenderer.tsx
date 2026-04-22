@@ -14,7 +14,7 @@ import {
   ServiceCards,
   TrustStrip
 } from "@/components/SiteSections";
-import { company, getRouteBySlug, images, isRouteSlug } from "@/lib/site-data";
+import { company, getRouteBySlug, images, isRouteSlug, pageHref, rootHref } from "@/lib/site-data";
 import type { Language, PublicCmsData, SitePageKind } from "@/lib/types";
 
 interface PageRendererProps {
@@ -158,7 +158,10 @@ function renderPage({ lang, slug, data, rootCompat }: PageRendererProps) {
                 <a className="btn whatsapp" href={`https://wa.me/${company.whatsappNumber}`}>
                   WhatsApp
                 </a>
-                <a className="btn primary" href={rootCompat ? "/quote.html?source=contact_panel" : `/${lang}/quote.html?source=contact_panel`}>
+                <a
+                  className="btn primary"
+                  href={withParams(rootCompat ? rootHref("quote.html") : pageHref(lang, "quote.html"), { source: "contact_panel" })}
+                >
                   {c.ctaQuote}
                 </a>
               </div>
@@ -218,10 +221,10 @@ function renderPage({ lang, slug, data, rootCompat }: PageRendererProps) {
                 {c.thankLead}
               </p>
               <div className="actions" style={{ justifyContent: "center" }}>
-                <a className="btn primary" href={rootCompat ? "/index.html" : `/${lang}/index.html`}>
+                <a className="btn primary" href={rootCompat ? rootHref("index.html") : pageHref(lang, "index.html")}>
                   {c.backHome}
                 </a>
-                <a className="btn" href={rootCompat ? "/quote.html" : `/${lang}/quote.html`}>
+                <a className="btn" href={rootCompat ? rootHref("quote.html") : pageHref(lang, "quote.html")}>
                   {c.newQuote}
                 </a>
                 <a className="btn whatsapp" href={`https://wa.me/${company.whatsappNumber}`} target="_blank" rel="noreferrer">
@@ -263,7 +266,13 @@ function renderPage({ lang, slug, data, rootCompat }: PageRendererProps) {
                     {c.sections.finalText} {c.responseTime}
                   </p>
                   <div className="actions">
-                    <a className="btn primary" href={rootCompat ? `/quote.html?route=${route.key}&source=route_page` : `/${lang}/quote.html?route=${route.key}&source=route_page`}>
+                    <a
+                      className="btn primary"
+                      href={withParams(rootCompat ? rootHref("quote.html") : pageHref(lang, "quote.html"), {
+                        route: route.key,
+                        source: "route_page"
+                      })}
+                    >
                       {c.routeCta}
                     </a>
                     <a className="btn whatsapp" href={`https://wa.me/${company.whatsappNumber}`}>
@@ -297,4 +306,13 @@ function activeKind(slug: string): SitePageKind {
   if (slug === "quote.html" || slug === "thankyou.html") return "quote";
   if (slug === "contact.html") return "contact";
   return "services";
+}
+
+function withParams(href: string, params: Record<string, string | undefined>) {
+  const search = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value) search.set(key, value);
+  }
+  const serialized = search.toString();
+  return serialized ? `${href}?${serialized}` : href;
 }

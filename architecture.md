@@ -1,6 +1,31 @@
 # Architecture Audit
 
-Production context: VIP Coach Transfers is currently a static marketing site hosted for `vipct.org`. It can work well as a lightweight lead-generation site, but the current codebase has several production blockers that affect reliability, maintainability, and conversion tracking.
+## Current Status
+
+This document started as a pre-migration audit of the old static site. The current codebase has already moved past several of those blockers.
+
+Implemented state in the Next.js/Supabase app:
+
+- Next.js App Router public site with multilingual rendering
+- Clean browser-facing URLs such as `/services`, `/quote`, `/cs/quote`, and `/ar/programs`
+- Redirect compatibility for legacy `.html` public URLs
+- Supabase-backed booking intake via `POST /api/booking-requests`
+- Linked `customers`, `booking_requests`, `price_estimates`, `booking_events`, and `internal_notes`
+- Staff admin for bookings, customers, schedule, pricing, CMS, fleet, drivers, and settings
+- Driver availability blocks, vehicle blocks, and assignment conflict detection
+- CMS-backed public content with revalidation hooks
+- Sitemap and robots generation in the app layer
+- Local admin provisioning via `npm run admins:sync`
+
+Remaining notable platform work:
+
+- migrate `middleware.ts` to the newer `proxy.ts` convention
+- deepen CMS editing beyond collection publishing
+- add more polished reporting/analytics around booking pipeline and staff response time
+
+## Legacy Audit Context
+
+Production context for the original audit: VIP Coach Transfers was a static marketing site hosted for `vipct.org`. The sections below describe the issues that existed before the Next.js operations backend replaced that structure.
 
 ## System Summary
 
@@ -38,4 +63,3 @@ Production context: VIP Coach Transfers is currently a static marketing site hos
 | Forms | First-party webhook or serverless function | Better lead reliability, validation, UTM capture, and CRM integration. |
 | Analytics | GA4, Plausible, or similar with custom events | Track WhatsApp clicks, quote starts, quote submits, language switches, and route interest. |
 | Quality checks | Simple npm scripts | Catch JS syntax, broken links, missing assets, and oversized images before publishing. |
-

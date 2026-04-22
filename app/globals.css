@@ -55,6 +55,39 @@ body {
   max-width: 560px;
 }
 
+.admin-form input,
+.admin-form select,
+.admin-form textarea,
+.admin-inline input,
+.admin-inline select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.admin-inline {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.admin-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 2fr) repeat(4, minmax(120px, 1fr)) auto auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.admin-stack {
+  display: grid;
+  gap: 10px;
+}
+
+.preview {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+
 .admin-muted,
 .form-error {
   color: #cfcfcf;
@@ -77,5 +110,12 @@ body {
 @media (max-width: 900px) {
   .admin-card {
     grid-column: span 12;
+  }
+
+  .admin-inline,
+  .admin-toolbar {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
   }
 }

@@ -1,13 +1,28 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { getEnv } from "@/lib/env";
+import { legacyRedirectPath } from "@/lib/site-data";
 
 export async function middleware(request: NextRequest) {
+  const redirectPath = legacyRedirectPath(request.nextUrl.pathname);
+  if (redirectPath) {
+    const url = request.nextUrl.clone();
+    url.pathname = redirectPath;
+    return NextResponse.redirect(url, 308);
+  }
+
   const response = NextResponse.next({
     request: {
       headers: request.headers
     }
   });
+
+  const needsAuthRefresh =
+    request.nextUrl.pathname.startsWith("/admin") || request.nextUrl.pathname.startsWith("/auth/callback");
+
+  if (!needsAuthRefresh) {
+    return response;
+  }
 
   const url = getEnv("NEXT_PUBLIC_SUPABASE_URL");
   const anon = getEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY");
@@ -30,5 +45,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/auth/callback"]
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|assets/|api/).*)"]
 };

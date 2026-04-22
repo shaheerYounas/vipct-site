@@ -2,6 +2,7 @@ import { revalidatePath } from "next/cache";
 import { AdminShell, SetupNotice } from "@/components/AdminShell";
 import { getAdminCollections } from "@/lib/cms";
 import { requireStaff } from "@/lib/admin-auth";
+import { languages, pageHref, publicSlugs, rootHref } from "@/lib/site-data";
 import { getServiceClient } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
@@ -17,7 +18,12 @@ export default async function CmsPage() {
     if (!supabase) return;
     const id = String(formData.get("id"));
     await supabase.from("cms_collections").update({ status: "published" }).eq("id", id);
-    revalidatePath("/");
+    for (const slug of publicSlugs) {
+      revalidatePath(rootHref(slug));
+      for (const lang of Object.keys(languages) as Array<keyof typeof languages>) {
+        revalidatePath(pageHref(lang, slug));
+      }
+    }
   }
 
   return (

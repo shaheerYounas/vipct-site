@@ -1,4 +1,4 @@
-import type { AvailabilityAssignment, AvailabilityConflict } from "@/lib/types";
+import type { AvailabilityAssignment, AvailabilityBlock, AvailabilityBlockConflict, AvailabilityConflict } from "@/lib/types";
 
 export function findAvailabilityConflicts(assignments: AvailabilityAssignment[]): AvailabilityConflict[] {
   const conflicts: AvailabilityConflict[] = [];
@@ -33,4 +33,38 @@ export function overlapsWithBuffer(a: AvailabilityAssignment, b: AvailabilityAss
   const bStart = new Date(b.startsAt).getTime() - bBuffer * 60_000;
   const bEnd = new Date(b.endsAt).getTime() + bBuffer * 60_000;
   return aStart < bEnd && bStart < aEnd;
+}
+
+export function findAvailabilityBlockConflicts(
+  assignments: AvailabilityAssignment[],
+  blocks: AvailabilityBlock[]
+): AvailabilityBlockConflict[] {
+  const conflicts: AvailabilityBlockConflict[] = [];
+
+  for (const assignment of assignments) {
+    for (const block of blocks) {
+      if (block.resourceType === "driver" && assignment.driverId && assignment.driverId === block.resourceId) {
+        if (overlapsAssignmentAndBlock(assignment, block)) {
+          conflicts.push({ assignmentId: assignment.id, blockId: block.id, resourceType: "driver" });
+        }
+      }
+
+      if (block.resourceType === "vehicle" && assignment.vehicleId && assignment.vehicleId === block.resourceId) {
+        if (overlapsAssignmentAndBlock(assignment, block)) {
+          conflicts.push({ assignmentId: assignment.id, blockId: block.id, resourceType: "vehicle" });
+        }
+      }
+    }
+  }
+
+  return conflicts;
+}
+
+function overlapsAssignmentAndBlock(assignment: AvailabilityAssignment, block: AvailabilityBlock): boolean {
+  const bufferMinutes = assignment.bufferMinutes ?? 30;
+  const assignmentStart = new Date(assignment.startsAt).getTime() - bufferMinutes * 60_000;
+  const assignmentEnd = new Date(assignment.endsAt).getTime() + bufferMinutes * 60_000;
+  const blockStart = new Date(block.startsAt).getTime();
+  const blockEnd = new Date(block.endsAt).getTime();
+  return assignmentStart < blockEnd && blockStart < assignmentEnd;
 }

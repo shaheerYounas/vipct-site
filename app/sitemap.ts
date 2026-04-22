@@ -1,11 +1,18 @@
-import { company, languages, publicSlugs } from "@/lib/site-data";
+import { company, pageHref, publicSlugs, rootHref } from "@/lib/site-data";
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return (Object.keys(languages) as Array<keyof typeof languages>).flatMap((lang) =>
+  const localized = (["cs", "ar"] as const).flatMap((lang) =>
     publicSlugs.map((slug) => ({
-      url: `${company.siteUrl}/${lang}/${slug}`,
+      url: `${company.siteUrl}${pageHref(lang, slug)}`,
       lastModified: new Date()
     }))
   );
+
+  const english = publicSlugs.map((slug) => ({
+    url: `${company.siteUrl}${rootHref(slug)}`,
+    lastModified: new Date()
+  }));
+
+  return [...english, ...localized];
 }

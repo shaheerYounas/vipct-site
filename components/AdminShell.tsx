@@ -4,6 +4,7 @@ import type React from "react";
 const adminLinks = [
   ["/admin", "Dashboard"],
   ["/admin/bookings", "Bookings"],
+  ["/admin/customers", "Customers"],
   ["/admin/schedule", "Schedule"],
   ["/admin/pricing", "Pricing"],
   ["/admin/cms", "CMS"],

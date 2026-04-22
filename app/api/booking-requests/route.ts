@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { normalizeBookingPayload } from "@/lib/booking-schema";
 import { calculatePriceEstimate } from "@/lib/pricing";
+import { pageHref, rootHref } from "@/lib/site-data";
 import { getServiceClient } from "@/lib/supabase";
 import { sendBookingNotifications } from "@/lib/notifications";
 
@@ -31,14 +32,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       id: localId,
       status: "received",
-      nextUrl: `/${parsed.language}/thankyou.html`,
+      nextUrl: thankYouPath(parsed.language, parsed.page),
       storage: "not_configured"
     });
   }
 
+  const customerId = await upsertCustomer(supabase, parsed);
+
   const { data: booking, error } = await supabase
     .from("booking_requests")
     .insert({
+      customer_id: customerId,
       status: "new",
       trip_type: parsed.trip_type,
       pickup_date: parsed.pickup_date,
@@ -81,7 +85,7 @@ export async function POST(request: NextRequest) {
   await supabase.from("booking_events").insert({
     booking_request_id: booking.id,
     event_type: "created",
-    payload: { source: "public_api", estimate }
+    payload: { source: "public_api", estimate, customer_id: customerId }
   });
 
   await supabase.from("price_estimates").insert({
@@ -101,7 +105,7 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     id: booking.id,
     status: "received",
-    nextUrl: `/${parsed.language}/thankyou.html`
+    nextUrl: thankYouPath(parsed.language, parsed.page)
   });
 }
 
@@ -114,4 +118,43 @@ function checkRateLimit(key: string): boolean {
   }
   current.count += 1;
   return current.count <= 8;
+}
+
+async function upsertCustomer(supabase: any, booking: ReturnType<typeof normalizeBookingPayload>): Promise<string | null> {
+  const lookupField = booking.email ? "email" : booking.phone ? "phone" : null;
+  if (!lookupField) return null;
+
+  const { data: existingRows, error: existingError } = await supabase
+    .from("customers")
+    .select("id")
+    .eq(lookupField, lookupField === "email" ? booking.email : booking.phone)
+    .order("updated_at", { ascending: false })
+    .limit(1);
+
+  if (existingError) throw existingError;
+
+  const payload = {
+    name: booking.name,
+    email: booking.email,
+    phone: booking.phone,
+    language: booking.language,
+    updated_at: new Date().toISOString()
+  };
+
+  if (existingRows?.[0]?.id) {
+    const { error: updateError } = await supabase.from("customers").update(payload).eq("id", existingRows[0].id);
+    if (updateError) throw updateError;
+    return existingRows[0].id;
+  }
+
+  const { data: inserted, error: insertError } = await supabase.from("customers").insert(payload).select("id").single();
+  if (insertError) throw insertError;
+  return inserted?.id ?? null;
+}
+
+function thankYouPath(language: string, page?: string) {
+  if (language !== "en" && (language === "cs" || language === "ar")) {
+    return pageHref(language, "thankyou.html");
+  }
+  return page?.startsWith("/en") ? pageHref("en", "thankyou.html") : rootHref("thankyou.html");
 }

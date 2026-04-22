@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { findAvailabilityConflicts } from "@/lib/availability";
+import { findAvailabilityBlockConflicts, findAvailabilityConflicts } from "@/lib/availability";
 
 describe("availability conflicts", () => {
   it("flags overlapping driver assignments with buffer time", () => {
@@ -46,5 +46,31 @@ describe("availability conflicts", () => {
       }
     ]);
     expect(conflicts).toEqual([]);
+  });
+
+  it("flags assignments that overlap blocked driver windows", () => {
+    const conflicts = findAvailabilityBlockConflicts(
+      [
+        {
+          id: "a1",
+          bookingId: "b1",
+          driverId: "d1",
+          vehicleId: "v1",
+          startsAt: "2026-05-10T10:00:00.000Z",
+          endsAt: "2026-05-10T11:00:00.000Z",
+          bufferMinutes: 30
+        }
+      ],
+      [
+        {
+          id: "block-1",
+          resourceType: "driver",
+          resourceId: "d1",
+          startsAt: "2026-05-10T11:15:00.000Z",
+          endsAt: "2026-05-10T13:00:00.000Z"
+        }
+      ]
+    );
+    expect(conflicts).toEqual([{ assignmentId: "a1", blockId: "block-1", resourceType: "driver" }]);
   });
 });
