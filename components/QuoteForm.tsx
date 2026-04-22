@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import type React from "react";
 import { company } from "@/lib/site-data";
 import type { Language, PublicCmsData } from "@/lib/types";
 

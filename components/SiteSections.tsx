@@ -5,33 +5,39 @@ import { siteHref } from "@/components/SiteChrome";
 export function Hero({
   lang,
   rootCompat,
+  data,
   title,
   text,
   image = images.hero
 }: {
   lang: Language;
   rootCompat?: boolean;
+  data: PublicCmsData;
   title: string;
   text: string;
   image?: string;
 }) {
+  const { copy } = data;
   return (
     <section className="hero">
       <picture className="hero-media">
         <img src={image} width={1600} height={1000} loading="eager" decoding="async" alt="" />
       </picture>
       <div className="container hero-content">
-        <span className="eyebrow">VIP transfers in Prague and Europe</span>
+        <span className="eyebrow">{copy.heroEyebrow}</span>
         <h1>{title}</h1>
         <p className="lead">{text}</p>
         <div className="actions">
           <a className="btn primary" href={siteHref(lang, "quote.html", rootCompat, { source: "hero" })}>
-            Get fixed price
+            {copy.ctaQuote}
           </a>
           <a className="btn whatsapp" data-wa data-wa-location="hero" href={`https://wa.me/${company.whatsappNumber}`}>
-            Book on WhatsApp
+            {copy.ctaWhatsApp}
           </a>
         </div>
+        <p className="help" style={{ marginTop: 12 }}>
+          {copy.responseTime}
+        </p>
       </div>
     </section>
   );

@@ -18,13 +18,21 @@ export async function getPublicCmsData(lang: Language): Promise<PublicCmsData> {
   const collections = Object.fromEntries(data.map((row) => [row.key, row.data]));
   return {
     lang,
-    copy: collections.copy ?? copy[lang],
-    fleet: collections.fleet ?? fleet[lang],
-    services: collections.services ?? cmsData[lang].services,
-    programs: collections.programs ?? programs[lang],
-    routes: collections.routes ?? routes[lang],
-    faqs: collections.faqs ?? faqs[lang]
+    copy: isCompleteCopy(collections.copy) ? collections.copy : copy[lang],
+    fleet: isCompleteArray(collections.fleet, "image") ? collections.fleet : fleet[lang],
+    services: isCompleteArray(collections.services, "image") ? collections.services : cmsData[lang].services,
+    programs: isCompleteArray(collections.programs, "image") ? collections.programs : programs[lang],
+    routes: isCompleteArray(collections.routes, "slug") ? collections.routes : routes[lang],
+    faqs: Array.isArray(collections.faqs) && collections.faqs.length ? collections.faqs : faqs[lang]
   };
+}
+
+function isCompleteCopy(value: any): boolean {
+  return Boolean(value?.nav && value?.sections && value?.quote && value?.trust);
+}
+
+function isCompleteArray(value: any, requiredKey: string): boolean {
+  return Array.isArray(value) && value.length > 0 && value.every((item) => item && item[requiredKey]);
 }
 
 export async function getAdminCollections() {

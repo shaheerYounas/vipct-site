@@ -378,7 +378,7 @@ export const fleet: Record<Language, FleetItem[]> = {
   }))
 };
 
-const serviceBase = [
+const serviceBase: Array<Pick<ServiceItem, "key" | "image" | "detailsHref" | "quoteParams">> = [
   { key: "airport-pickup", image: images.serviceAirport, detailsHref: "airport-transfer-prague.html", quoteParams: { service: "airport-pickup", route: "airport" } },
   { key: "airport-dropoff", image: images.serviceDrop, detailsHref: "airport-transfer-prague.html", quoteParams: { service: "airport-dropoff", route: "airport" } },
   { key: "chauffeur", image: images.serviceDriver, detailsHref: "private-chauffeur-prague.html", quoteParams: { service: "chauffeur", route: "chauffeur" } },

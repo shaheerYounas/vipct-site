@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+}
+
+.admin-shell {
+  min-height: 100vh;
+  background: #080808;
+  color: #fff;
+}
+
+.admin-main {
+  width: min(100% - 36px, 1180px);
+  margin: 0 auto;
+  padding: 34px 0 80px;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+
+.admin-card {
+  grid-column: span 4;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .045);
+}
+
+.admin-card.wide {
+  grid-column: span 12;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.admin-table th {
+  color: #f1d481;
+}
+
+.admin-form {
+  display: grid;
+  gap: 12px;
+  max-width: 560px;
+}
+
+.admin-muted,
+.form-error {
+  color: #cfcfcf;
+}
+
+.form-error {
+  color: #ff8d8d;
+}
+
+.route-card {
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.rtl .route-card {
+  text-align: right;
+}
+
+@media (max-width: 900px) {
+  .admin-card {
+    grid-column: span 12;
+  }
+}

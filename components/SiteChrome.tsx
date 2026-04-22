@@ -1,3 +1,4 @@
+import type React from "react";
 import { company, languages, navPages, pageHref, rootHref } from "@/lib/site-data";
 import type { Language, PublicCmsData, SitePageKind } from "@/lib/types";
 

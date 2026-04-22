@@ -9,6 +9,12 @@
     "start": "next start -H 127.0.0.1 -p 5500",
     "generate": "node scripts/generate-site.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
+    "admins:sync": "tsx scripts/sync-admins.ts",
+    "supabase:start": "supabase start",
+    "supabase:status": "supabase status",
+    "db:push": "supabase db push",
+    "db:reset:local": "supabase db reset",
+    "seed:cms": "tsx scripts/seed-cms.ts",
     "check:js": "tsc --noEmit",
     "check:assets": "node scripts/check-assets.mjs",
     "test": "vitest run",
@@ -29,6 +35,10 @@
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "dotenv": "^17.4.2",
+    "puppeteer-core": "^24.42.0",
+    "supabase": "^2.93.0",
+    "tsx": "^4.21.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.5"
   }
